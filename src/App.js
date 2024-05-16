@@ -1,4 +1,5 @@
 import './App.css';
+import VideoUpload from './VideoUpload';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
      <div>Update Resume</div>
      <div>Create Cover Letter</div>
      <div>Extract Audio from Video</div>
+     <VideoUpload/>
     </div>
   );
 }
