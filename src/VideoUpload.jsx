@@ -16,7 +16,7 @@ function VideoUpload() {
 
     try {
       // Upload the video file to the server
-      const response = await axios.post('/api/upload', formData, {
+      const response = await axios.post('http://localhost:3001/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
