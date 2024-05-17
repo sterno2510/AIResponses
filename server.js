@@ -18,23 +18,34 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
   try {
     const audioFilePath = `uploads/${req.file.filename}.mp3`;
     console.log('am I in upload?', audioFilePath);
+
     ffmpeg(req.file.path)
-      .audioCodec('libmp3lame') // Using libmp3lame codec for mp3
+      .audioCodec('libmp3lame')
       .audioChannels(1)
       .format('mp3')
       .save(audioFilePath)
       .on('end', async () => {
+        console.log('Audio file created:', audioFilePath);
+
         const audioContent = fs.readFileSync(audioFilePath).toString('base64');
+        console.log('Audio content read and converted to base64');
         const audio = { content: audioContent };
-        const config = { encoding: 'MP3', languageCode: 'en-US' }; // Change encoding to MP3
+        const config = { encoding: 'MP3', sampleRateHertz: 44100, languageCode: 'en-US' };
         const request = { audio, config };
 
+        console.log('Request:', request);
         const [response] = await client.recognize(request);
-        const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
+        console.log('Google Speech-to-Text response:', response);
 
-        fs.unlinkSync(audioFilePath);
-
-        res.json({ transcribedText: transcription });
+        if (response && response.results && response.results.length > 0) {
+          const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
+          console.log('Transcription:', transcription);
+          fs.unlinkSync(audioFilePath);
+          res.json({ transcribedText: transcription });
+        } else {
+          console.warn('No transcription results found');
+          res.status(500).json({ error: 'No transcription results found' });
+        }
       })
       .on('error', (err) => {
         console.error('Error extracting audio:', err);
