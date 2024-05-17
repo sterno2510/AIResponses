@@ -4,46 +4,48 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const speech = require('@google-cloud/speech');
 
+const cors = require('cors');
+
 const app = express();
-const port = 3000;
 const upload = multer({ dest: 'uploads/' });
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from this origin
+}));
 
 const client = new speech.SpeechClient();
 
-app.post('/api/upload', upload.single('video'), async (req, res) => {
+app.post('/api/upload', upload.single('video'), (req, res) => {
   try {
-    // Extract audio from the uploaded video using FFmpeg
-    const audioFilePath = `uploads/${req.file.filename}.wav`;
+    const audioFilePath = `uploads/${req.file.filename}.mp3`;
+    console.log('am I in upload?', audioFilePath);
+
     ffmpeg(req.file.path)
-      .audioCodec('pcm_s16le')
+      .audioCodec('libmp3lame')
       .audioChannels(1)
-      .format('wav')
+      .format('mp3')
       .save(audioFilePath)
       .on('end', async () => {
-        // Transcribe the extracted audio using Google Cloud Speech-to-Text
+        console.log('Audio file created:', audioFilePath);
+
         const audioContent = fs.readFileSync(audioFilePath).toString('base64');
-        const audio = {
-          content: audioContent,
-        };
-        const config = {
-          encoding: 'LINEAR16',
-          sampleRateHertz: 16000,
-          languageCode: 'en-US',
-        };
-        const request = {
-          audio,
-          config,
-        };
+        console.log('Audio content read and converted to base64');
+        const audio = { content: audioContent };
+        const config = { encoding: 'MP3', sampleRateHertz: 44100, languageCode: 'en-US' };
+        const request = { audio, config };
+
+        console.log('Request:', request);
         const [response] = await client.recognize(request);
-        const transcription = response.results
-          .map((result) => result.alternatives[0].transcript)
-          .join('\n');
+        console.log('Google Speech-to-Text response:', response);
 
-        // Delete the temporary audio file
-        fs.unlinkSync(audioFilePath);
-
-        // Send the transcribed text back to the client
-        res.json({ transcribedText: transcription });
+        if (response && response.results && response.results.length > 0) {
+          const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
+          console.log('Transcription:', transcription);
+          fs.unlinkSync(audioFilePath);
+          res.json({ transcribedText: transcription });
+        } else {
+          console.warn('No transcription results found');
+          res.status(500).json({ error: 'No transcription results found' });
+        }
       })
       .on('error', (err) => {
         console.error('Error extracting audio:', err);
@@ -55,10 +57,7 @@ app.post('/api/upload', upload.single('video'), async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

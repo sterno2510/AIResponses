@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function VideoUpload() {
   const [videoFile, setVideoFile] = useState(null);
-  const [transcribedText, setTranscribedText] = useState('');
+  const [transcribedTextState, setTranscribedTextState] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -16,7 +16,7 @@ function VideoUpload() {
 
     try {
       // Upload the video file to the server
-      const response = await axios.post('/api/upload', formData, {
+      const response = await axios.post('http://localhost:3001/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -24,8 +24,12 @@ function VideoUpload() {
 
       // Get the transcribed text from the server response
       const { transcribedTextResponse } = response.data;
-      console.log('am I in here?');
-      setTranscribedText(transcribedTextResponse);
+      const { transcribedText } = response.data;
+      console.log(transcribedText); // Should print: testing one two three testing one two three
+
+      console.log('am I in here?', response);
+      console.log('trascribed test', transcribedTextResponse);
+      setTranscribedTextState(transcribedText);
     } catch (error) {
       console.error('Error uploading video:', error);
     }
@@ -35,7 +39,7 @@ function VideoUpload() {
     <div>
       <input type="file" accept="video/*" onChange={handleFileChange} />
       <button type="submit" onClick={handleUpload}>Upload</button>
-      {transcribedText && <div>{transcribedText}</div>}
+      {transcribedTextState && <div>{transcribedTextState}</div>}
     </div>
   );
 }
