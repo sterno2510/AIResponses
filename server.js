@@ -4,45 +4,36 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const speech = require('@google-cloud/speech');
 
+const cors = require('cors');
+
 const app = express();
-const port = 3000;
 const upload = multer({ dest: 'uploads/' });
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from this origin
+}));
 
 const client = new speech.SpeechClient();
 
-app.post('/api/upload', upload.single('video'), async (req, res) => {
+app.post('/api/upload', upload.single('video'), (req, res) => {
   try {
-    // Extract audio from the uploaded video using FFmpeg
-    const audioFilePath = `uploads/${req.file.filename}.wav`;
+    const audioFilePath = `uploads/${req.file.filename}.mp3`;
+    console.log('am I in upload?', audioFilePath);
     ffmpeg(req.file.path)
-      .audioCodec('pcm_s16le')
+      .audioCodec('libmp3lame') // Using libmp3lame codec for mp3
       .audioChannels(1)
-      .format('wav')
+      .format('mp3')
       .save(audioFilePath)
       .on('end', async () => {
-        // Transcribe the extracted audio using Google Cloud Speech-to-Text
         const audioContent = fs.readFileSync(audioFilePath).toString('base64');
-        const audio = {
-          content: audioContent,
-        };
-        const config = {
-          encoding: 'LINEAR16',
-          sampleRateHertz: 16000,
-          languageCode: 'en-US',
-        };
-        const request = {
-          audio,
-          config,
-        };
-        const [response] = await client.recognize(request);
-        const transcription = response.results
-          .map((result) => result.alternatives[0].transcript)
-          .join('\n');
+        const audio = { content: audioContent };
+        const config = { encoding: 'MP3', languageCode: 'en-US' }; // Change encoding to MP3
+        const request = { audio, config };
 
-        // Delete the temporary audio file
+        const [response] = await client.recognize(request);
+        const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
+
         fs.unlinkSync(audioFilePath);
 
-        // Send the transcribed text back to the client
         res.json({ transcribedText: transcription });
       })
       .on('error', (err) => {
@@ -55,10 +46,7 @@ app.post('/api/upload', upload.single('video'), async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
