@@ -17,7 +17,6 @@ const client = new speech.SpeechClient();
 app.post('/api/upload', upload.single('video'), (req, res) => {
   try {
     const audioFilePath = `uploads/${req.file.filename}.mp3`;
-    console.log('am I in upload?', audioFilePath);
 
     ffmpeg(req.file.path)
       .audioCodec('libmp3lame')
@@ -39,11 +38,9 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
 
         if (response && response.results && response.results.length > 0) {
           const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
-          console.log('Transcription:', transcription);
           fs.unlinkSync(audioFilePath);
           res.json({ transcribedText: transcription });
         } else {
-          console.warn('No transcription results found');
           res.status(500).json({ error: 'No transcription results found' });
         }
       })
