@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import VideoUpload from './VideoUpload';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -8,8 +8,7 @@ function App() {
       <h1>AI Companion</h1>
       <div>Update Resume</div>
       <div>Create Cover Letter</div>
-      <div>Extract Audio from Video</div>
-      <VideoUpload />
+      <Link to="transcribe">Extract Audio from Video</Link>
     </div>
   );
 }
