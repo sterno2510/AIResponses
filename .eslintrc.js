@@ -7,15 +7,29 @@ module.exports = {
     'plugin:react/recommended',
     'airbnb',
   ],
-  overrides: [
-  ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
   plugins: [
     'react',
+    'import', // Add this line
   ],
   rules: {
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: [
+        '**/test.js', // Adjust according to your test file patterns
+        '**/test/**', // Adjust according to your test directory patterns
+      ],
+      optionalDependencies: false,
+      peerDependencies: false,
+    }],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'src'],
+      },
+    },
   },
 };
