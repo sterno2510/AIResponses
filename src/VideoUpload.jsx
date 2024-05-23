@@ -1,6 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import { React, useState } from 'react';
 import axios from 'axios';
+import TranscriptionText from './TranscriptionText';
 
 const VideoUpload = () => {
   const [videoFile, setVideoFile] = useState(null);
@@ -29,12 +30,12 @@ const VideoUpload = () => {
       console.error('Error uploading video:', error);
     }
   };
-
+  console.log('transcribe text', transcribedTextState);
   return (
     <div>
       <input type="file" accept="video/*" onChange={handleFileChange} />
       <button type="submit" onClick={handleUpload}>Upload</button>
-      {transcribedTextState && <div>{transcribedTextState}</div>}
+      {transcribedTextState && <TranscriptionText text={transcribedTextState} />}
     </div>
   );
 };
