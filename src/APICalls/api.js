@@ -1,7 +1,7 @@
 // api.js
 import axios from 'axios';
 
-const OPENAI_API_KEY = 'sk-proj-Z3OfrYBFRoDxQmWrbzCuT3BlbkFJ999mNRLwXppFvMsd96wD';
+const OPENAI_API_KEY = 'api key';
 
 const analyzeText = async (text) => {
   try {
