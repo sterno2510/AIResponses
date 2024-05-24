@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import analyzeText from './APICalls/api';
 
 function TranscriptionText({ text }) {
-  console.log('in transcription component');
+  const [processedText, setProcessedText] = useState('');
+
+  useEffect(() => {
+    const fetchProcessedText = async () => {
+      try {
+        const result = await analyzeText(text);
+        // Replace new lines with <br/> and double new lines with <p></p> tags
+        setProcessedText(result);
+      } catch (error) {
+        console.error('Failed to process text:', error);
+      }
+    };
+
+    fetchProcessedText();
+  }, [text]);
+
   return (
-    <div>{text}</div>
+    <div dangerouslySetInnerHTML={{ __html: processedText }} />
   );
 }
 
