@@ -9,7 +9,7 @@ function TranscriptionText({ text }) {
     const fetchProcessedText = async () => {
       try {
         const result = await analyzeText(text);
-        // Replace new lines with <br/> and double new lines with <p></p> tags
+
         setProcessedText(result);
       } catch (error) {
         console.error('Failed to process text:', error);

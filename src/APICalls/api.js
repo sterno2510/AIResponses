@@ -1,19 +1,24 @@
 // api.js
 import axios from 'axios';
 
-const OPENAI_API_KEY = 'api key';
+const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+console.log('key', OPENAI_API_KEY);
 
 const analyzeText = async (text) => {
   try {
     const response = await axios.post(
       'https://api.openai.com/v1/completions',
       {
-        prompt: `Analyze the following text and add appropriate paragraph breaks and punctuation:\n\n${text}.  Replace new lines with <br/> and double new lines with <p></p> tags`,
-        max_tokens: 500,
+        messages: [
+          {
+            role: 'system',
+            content: `Analyze the following text and add appropriate paragraph breaks and punctuation:\n\n${text}.  Replace new lines with <br/> and double new lines with <p></p> tags`,
+          },
+        ],
         n: 1,
         stop: null,
         temperature: 0.7,
-        model: 'gpt-3.5-turbo',
+        model: 'davinci-002',
       },
       {
         headers: {
