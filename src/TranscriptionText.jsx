@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import analyzeText from './APICalls/api';
+import axios from 'axios';
 
 function TranscriptionText({ text }) {
   const [processedText, setProcessedText] = useState('');
 
   useEffect(() => {
-    const fetchProcessedText = async () => {
-      try {
-        const result = await analyzeText(text);
-
-        setProcessedText(result);
-      } catch (error) {
-        console.error('Failed to process text:', error);
-      }
+    const prompt = {
+      prompt: `Analyze the following text and add appropriate paragraph breaks with <br/> and punctuation: ${text}.`,
     };
-
-    fetchProcessedText();
+    axios.post('/api/openai', prompt)
+      .then((success) => {
+        console.log('success', success.data);
+        setProcessedText(success.data.message.content);
+      })
+      .catch((error) => {
+        console.log(`Error making network call to openAI ${error}`);
+      });
   }, [text]);
 
   return (

@@ -1,3 +1,9 @@
+const OpenAI = require('openai');
+const dotenv = require('dotenv');
+
+dotenv.config();
+const axios = require('axios');
+
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
@@ -7,6 +13,7 @@ const speech = require('@google-cloud/speech');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json());
 const upload = multer({ dest: 'uploads/' });
 app.use(cors({
   origin: 'http://localhost:3000', // Allow requests from this origin
@@ -31,10 +38,7 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
         const audio = { content: audioContent };
         const config = { encoding: 'MP3', sampleRateHertz: 44100, languageCode: 'en-US' };
         const request = { audio, config };
-
-        console.log('Request:', request);
         const [response] = await client.recognize(request);
-        console.log('Google Speech-to-Text response:', response);
 
         if (response && response.results && response.results.length > 0) {
           const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
@@ -51,6 +55,26 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
   } catch (err) {
     console.error('Error processing video upload:', err);
     res.status(500).json({ error: 'Error processing video upload' });
+  }
+});
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+app.post('/api/openai', async (req, res) => {
+  console.log('in api call to openai');
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: req.body.prompt }],
+      model: 'gpt-3.5-turbo',
+      temperature: 0.7,
+      max_tokens: 64,
+      top_p: 1,
+    });
+    res.send(completion.choices[0]);
+  } catch (error) {
+    console.error('Error analyzing text:', error);
+    throw error;
   }
 });
 
