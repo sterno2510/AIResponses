@@ -1,57 +1,57 @@
+const OpenAI = require('openai');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
-const speech = require('@google-cloud/speech');
 
 const cors = require('cors');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from this origin
+  origin: 'http://localhost:3000',
 }));
+const upload = multer({ dest: 'uploads/' });
 
-const client = new speech.SpeechClient();
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-app.post('/api/upload', upload.single('video'), (req, res) => {
-  try {
-    const audioFilePath = `uploads/${req.file.filename}.mp3`;
+app.post('/api/openai', upload.single('video'), async (req, res) => {
+  const audioFilePath = `uploads/${req.file.filename}.mp3`;
 
-    ffmpeg(req.file.path)
-      .audioCodec('libmp3lame')
-      .audioChannels(1)
-      .format('mp3')
-      .save(audioFilePath)
-      .on('end', async () => {
-        console.log('Audio file created:', audioFilePath);
+  ffmpeg(req.file.path)
+    .audioCodec('libmp3lame')
+    .audioChannels(1)
+    .format('mp3')
+    .save(audioFilePath)
+    .on('end', async () => {
+      console.log('Audio file created:', audioFilePath);
 
-        const audioContent = fs.readFileSync(audioFilePath).toString('base64');
-        console.log('Audio content read and converted to base64');
-        const audio = { content: audioContent };
-        const config = { encoding: 'MP3', sampleRateHertz: 44100, languageCode: 'en-US' };
-        const request = { audio, config };
+      try {
+        const transcription = await openai.audio.transcriptions.create({
+          file: fs.createReadStream(audioFilePath),
+          model: 'whisper-1',
+        });
 
-        console.log('Request:', request);
-        const [response] = await client.recognize(request);
-        console.log('Google Speech-to-Text response:', response);
+        const completion = await openai.chat.completions.create({
+          messages: [{ role: 'user', content: `Analyze the following text and add appropriate paragraph breaks with <br/> and punctuation: ${transcription.text}.` }],
+          model: 'gpt-3.5-turbo',
+          temperature: 0.7,
+          max_tokens: 64,
+          top_p: 1,
+        });
 
-        if (response && response.results && response.results.length > 0) {
-          const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
-          fs.unlinkSync(audioFilePath);
-          res.json({ transcribedText: transcription });
-        } else {
-          res.status(500).json({ error: 'No transcription results found' });
-        }
-      })
-      .on('error', (err) => {
-        console.error('Error extracting audio:', err);
-        res.status(500).json({ error: 'Error extracting audio' });
-      });
-  } catch (err) {
-    console.error('Error processing video upload:', err);
-    res.status(500).json({ error: 'Error processing video upload' });
-  }
+        res.send(completion.choices[0].message);
+      } catch (error) {
+        console.error('Error analyzing text:', error);
+        res.status(500).send('Error analyzing text');
+      }
+    });
 });
 
 const PORT = process.env.PORT || 3001;

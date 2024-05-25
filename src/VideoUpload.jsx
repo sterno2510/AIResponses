@@ -17,20 +17,19 @@ const VideoUpload = () => {
     formData.append('video', videoFile);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/upload', formData, {
+      const response = await axios.post('/api/openai', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      const { transcribedText } = response.data;
+      const transcribedText = response.data.content;
 
       setTranscribedTextState(transcribedText);
     } catch (error) {
       console.error('Error uploading video:', error);
     }
   };
-  console.log('transcribe text', transcribedTextState);
+
   return (
     <div>
       <input type="file" accept="video/*" onChange={handleFileChange} />

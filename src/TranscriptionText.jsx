@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function TranscriptionText({ text }) {
-  console.log('in transcription component');
   return (
-    <div>{text}</div>
+    <div dangerouslySetInnerHTML={{ __html: text }} />
   );
 }
 
