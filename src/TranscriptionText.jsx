@@ -9,11 +9,8 @@ const TranscribedTextStyled = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: lightgrey;
   border-radius: 8px;
+  margin: 20px auto; /* Centered and with margin to avoid overlap */
   text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 function TranscriptionText({ text }) {
