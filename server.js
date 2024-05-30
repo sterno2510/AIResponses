@@ -23,6 +23,7 @@ const openai = new OpenAI({
 
 app.post('/api/openai/resume', async (req, res) => {
   const bodyContent = JSON.stringify(req.body, null, 2);
+  console.log('body content', bodyContent);
   const completion = await openai.chat.completions.create({
     messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page: ${bodyContent}.` }],
     model: 'gpt-3.5-turbo',
