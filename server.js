@@ -22,7 +22,16 @@ const openai = new OpenAI({
 });
 
 app.post('/api/openai/resume', async (req, res) => {
-  console.log(req.body);
+  const bodyContent = JSON.stringify(req.body, null, 2);
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page: ${bodyContent}.` }],
+    model: 'gpt-3.5-turbo',
+    temperature: 0.7,
+    max_tokens: 64,
+    top_p: 1,
+  });
+  console.log(completion.choices[0].message);
+  res.send(completion.choices[0].message);
 });
 
 app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
