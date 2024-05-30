@@ -21,7 +21,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-app.post('/api/openai', upload.single('video'), async (req, res) => {
+app.post('/api/openai/resume', async (req, res) => {
+  console.log(req.body);
+});
+
+app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
   const audioFilePath = `uploads/${req.file.filename}.mp3`;
 
   ffmpeg(req.file.path)

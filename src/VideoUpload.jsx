@@ -29,7 +29,7 @@ const VideoUpload = () => {
     formData.append('video', videoFile);
 
     try {
-      const response = await axios.post('/api/openai', formData, {
+      const response = await axios.post('/api/openai/transcribe', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
