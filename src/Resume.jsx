@@ -7,10 +7,14 @@ import axios from 'axios';
 
 function Resume() {
   const [resume, setResume] = useState('');
-  const hello = { body: 'hello' };
+  const [pdf, setPdf] = useState(null);
+  const hello = {
+    name: 'Brian Stern',
+    phoneNumber: '973-342-2892',
+    email: 'bris5@aol.com',
+  };
 
   const uploadResume = async () => {
-    console.log('in upload');
     await axios.post('/api/openai/resume', hello)
       .then((res) => {
         setResume(res.data.content);
