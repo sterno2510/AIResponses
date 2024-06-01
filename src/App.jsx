@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <h1>AI Companion</h1>
-      <div>Update Resume</div>
+      <Link to="resume">Update Resume</Link>
       <div>Create Cover Letter</div>
       <Link to="transcribe">Extract Audio from Video</Link>
     </div>

@@ -9,6 +9,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorPage from './error-page';
 import VideoUpload from './VideoUpload';
+import Resume from './Resume';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: 'transcribe/',
     element: <VideoUpload />,
+  },
+  {
+    path: 'resume/',
+    element: <Resume />,
   },
 ]);
 
