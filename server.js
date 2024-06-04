@@ -5,7 +5,10 @@ const path = require('path');
 const express = require('express');
 
 const app = express();
+
+// Middleware
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.json());
 
 dotenv.config();
 
@@ -15,28 +18,43 @@ const ffmpeg = require('fluent-ffmpeg');
 
 const cors = require('cors');
 
-app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:3000',
-}));
+app.use(cors({ origin: 'http://localhost:3000' }));
+
 const upload = multer({ dest: 'uploads/' });
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Error event handling for FfmpegCommand instance
+ffmpeg.on('error', (err, stdout, stderr) => {
+  console.error('FFmpeg command error:', err);
+  // Additional error handling logic if needed
+});
+
+// Global error handler middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).send('Internal Server Error');
+});
+
 app.post('/api/openai/resume', async (req, res) => {
-  const bodyContent = JSON.stringify(req.body, null, 2);
-  console.log('body content', bodyContent);
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page (keep to one page) (make sure the name is centered at the top and the email, phone number and and linkedIn url are on one line underneath with an hr tag separating from the rest of the resume): ${bodyContent}.` }],
-    model: 'gpt-3.5-turbo',
-    temperature: 0.7,
-    max_tokens: 1000,
-    top_p: 1,
-  });
-  console.log(completion.choices[0].message);
-  res.send(completion.choices[0].message);
+  try {
+    const bodyContent = JSON.stringify(req.body, null, 2);
+    console.log('body content', bodyContent);
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page (keep to one page) (make sure the name is centered at the top and the email, phone number and and linkedIn url are on one line underneath with an hr tag separating from the rest of the resume): ${bodyContent}.` }],
+      model: 'gpt-3.5-turbo',
+      temperature: 0.7,
+      max_tokens: 1000,
+      top_p: 1,
+    });
+    console.log(completion.choices[0].message);
+    res.send(completion.choices[0].message);
+  } catch (error) {
+    console.error('Error analyzing text:', error);
+    res.status(500).send('Error analyzing text');
+  }
 });
 
 app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
@@ -72,8 +90,9 @@ app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
     });
 });
 
+// Catch-all route for React Router
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build ', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
