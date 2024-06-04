@@ -10,7 +10,6 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
 
-
 dotenv.config();
 
 const multer = require('multer');
@@ -25,18 +24,6 @@ const upload = multer({ dest: 'uploads/' });
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Error event handling for FfmpegCommand instance
-ffmpeg.on('error', (err, stdout, stderr) => {
-  console.error('FFmpeg command error:', err);
-  // Additional error handling logic if needed
-});
-
-// Global error handler middleware
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).send('Internal Server Error');
 });
 
 app.post('/api/openai/resume', async (req, res) => {
@@ -88,12 +75,23 @@ app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
         console.error('Error analyzing text:', error);
         res.status(500).send('Error analyzing text');
       }
+    })
+    .on('error', (err, stdout, stderr) => {
+      console.error('FFmpeg command error:', err);
+      // Additional error handling logic if needed
+      res.status(500).send('FFmpeg command error');
     });
 });
 
 // Catch-all route for React Router
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// Global error handler middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).send('Internal Server Error');
 });
 
 const PORT = process.env.PORT || 3001;
