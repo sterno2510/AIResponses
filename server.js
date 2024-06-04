@@ -5,7 +5,7 @@ const path = require('path');
 const express = require('express');
 
 const app = express();
-app.use(express.static(path.join(__dirname, '../AIresponses/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 dotenv.config();
 
@@ -73,7 +73,7 @@ app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../AIresponses/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
