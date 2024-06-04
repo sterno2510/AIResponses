@@ -25,10 +25,10 @@ app.post('/api/openai/resume', async (req, res) => {
   const bodyContent = JSON.stringify(req.body, null, 2);
   console.log('body content', bodyContent);
   const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page: ${bodyContent}.` }],
+    messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page (keep to one page) (make sure the name is centered at the top and the email, phone number and and linkedIn url are on one line underneath with an hr tag separating from the rest of the resume): ${bodyContent}.` }],
     model: 'gpt-3.5-turbo',
     temperature: 0.7,
-    max_tokens: 64,
+    max_tokens: 1000,
     top_p: 1,
   });
   console.log(completion.choices[0].message);
