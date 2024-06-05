@@ -10,20 +10,27 @@ import reportWebVitals from './reportWebVitals';
 import ErrorPage from './error-page';
 import VideoUpload from './VideoUpload';
 import Resume from './Resume';
+// import CoverLetter from './CoverLetter';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: 'transcribe/',
-    element: <VideoUpload />,
-  },
-  {
-    path: 'resume/',
-    element: <Resume />,
+    children: [
+      {
+        path: 'resume',
+        element: <Resume />,
+      },
+      // {
+      //   path: 'cover-letter',
+      //   element: <CoverLetter />,
+      // },
+      {
+        path: 'transcribe',
+        element: <VideoUpload />,
+      },
+    ],
   },
 ]);
 

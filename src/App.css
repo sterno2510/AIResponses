@@ -1,4 +1,53 @@
+/* App.css */
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 12.5%; /* 1/8 of the page */
+  background-color: #404040;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h1 {
+  font-size: 1.5em;
+}
+
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav li {
+  margin: 20px 0;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #61dafb;
+}
+
+.sidebar nav a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  width: 87.5%; /* Remaining part of the page */
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.placeholder {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px dashed #ccc;
+  background-color: #fff;
+}

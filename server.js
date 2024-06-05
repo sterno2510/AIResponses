@@ -85,6 +85,7 @@ app.post('/api/openai/transcribe', upload.single('video'), async (req, res) => {
 
 // Catch-all route for React Router
 app.get('*', (req, res) => {
+  console.log('getting main page');
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
