@@ -86,10 +86,10 @@ function Resume() {
     linkedin: '',
     summary: '',
     workExperience: [{
-      company: '', role: '', duration: '', description: '',
+      company: '', role: '', startDate: '', endDate: '', description: '',
     }],
     education: [{
-      school: '', degree: '', fieldOfStudy: '', duration: '',
+      school: '', degree: '', fieldOfStudy: '', startDate: '', endDate: '',
     }],
     skills: '',
   });
@@ -183,8 +183,12 @@ function Resume() {
               <Input type="text" id={`role-${index}`} name="role" value={experience.role} onChange={(e) => handleWorkExperienceChange(index, e)} required />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor={`duration-${index}`}>Duration:</Label>
-              <Input type="text" id={`duration-${index}`} name="duration" value={experience.duration} onChange={(e) => handleWorkExperienceChange(index, e)} required />
+              <Label htmlFor={`startDate-${index}`}>Start Date:</Label>
+              <Input type="text" id={`startDate-${index}`} name="startDate" value={experience.startDate} onChange={(e) => handleWorkExperienceChange(index, e)} required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor={`endDate-${index}`}>End Date:</Label>
+              <Input type="text" id={`endDate-${index}`} name="endDate" value={experience.endDate} onChange={(e) => handleWorkExperienceChange(index, e)} required />
             </FormGroup>
             <FormGroup>
               <Label htmlFor={`description-${index}`}>Description:</Label>
@@ -213,8 +217,12 @@ function Resume() {
               <Input type="text" id={`fieldOfStudy-${index}`} name="fieldOfStudy" value={edu.fieldOfStudy} onChange={(e) => handleEducationChange(index, e)} required />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor={`eduDuration-${index}`}>Duration:</Label>
-              <Input type="text" id={`eduDuration-${index}`} name="duration" value={edu.duration} onChange={(e) => handleEducationChange(index, e)} required />
+              <Label htmlFor={`eduStartDate-${index}`}>Start Date:</Label>
+              <Input type="text" id={`eduStartDate-${index}`} name="startDate" value={edu.duration} onChange={(e) => handleEducationChange(index, e)} required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor={`eduEndDate-${index}`}>End Date:</Label>
+              <Input type="text" id={`eduEndDate-${index}`} name="endDate" value={edu.duration} onChange={(e) => handleEducationChange(index, e)} required />
             </FormGroup>
           </Section>
         ))}
