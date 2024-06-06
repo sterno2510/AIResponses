@@ -1,15 +1,18 @@
 import './App.css';
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="App">
       <Header />
       <div className="main-content">
         <div className="sidebar">
           <h1>AI Companion</h1>
+          <hr />
           <nav>
             <ul>
               <li>
@@ -26,7 +29,9 @@ function App() {
         </div>
         <div className="content">
           <Outlet />
-          <div className="placeholder">Placeholder for another component yet to come</div>
+          {location.pathname !== '/resume' && (
+            <div className="placeholder">Placeholder for another component yet to come</div>
+          )}
         </div>
       </div>
     </div>
