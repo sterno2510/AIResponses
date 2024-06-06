@@ -1,27 +1,26 @@
-// Header.js
 import React from 'react';
 import styled from 'styled-components';
-import logo from './assets/ailogo.png'; // Replace with the path to your logo image
-import slogan from './assets/slogan.png'; // Replace with the path to your slogan image
+import logo from './assets/ailogo.png';
+import slogan from './assets/slogan.png';
 
 const HeaderContainer = styled.header`
   background-color: #404040;
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Space out children elements */
+  justify-content: space-between;
 `;
 
 const Logo = styled.img`
-  max-height: 80px; /* Adjust as needed */
+  max-height: 80px;
   width: auto;
   margin-left: 45px;
 `;
 
 const Slogan = styled.img`
-  max-height: 75px; /* Adjust as needed */
+  max-height: 75px;
   width: 50%;
-  margin: 0 auto; /* Center the slogan */
+  margin: 0 auto;
 `;
 
 const SloganContainer = styled.div`

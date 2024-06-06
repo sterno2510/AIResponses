@@ -31,7 +31,14 @@ app.post('/api/openai/resume', async (req, res) => {
     const bodyContent = JSON.stringify(req.body, null, 2);
     console.log('body content', bodyContent);
     const completion = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: `Convert this into a resume and add appropriate html tags so it is formatted correctly on a web page (keep to one page) (make sure the name is centered at the top and the email, phone number and and linkedIn url are on one line underneath with an hr tag separating from the rest of the resume).  Also for the work description, format whatever the text is into appropriate bullet points that you would see on a resume, the summary should not be bullets, but should be composed into what a summary should be on a resume: ${bodyContent}.` }],
+      messages: [{
+        role: 'system',
+        content: 'You are an expert in creating professional resumes in HTML format.',
+      },
+      {
+        role: 'user',
+        content: `Given the following JSON object, generate a traditional one-page HTML resume. Format the description fields of the work experience into correct bullet points, ensure the summary is professional and grammatically correct, and the entire resume fits on one page. The name should be centered on the page and the email, location, and LinkedIn should be on one line with an <hr> beneath it. The LinkedIn should be a link to the URL provided. Do not include \`\`\`html or \`\`\` at the beginning or end of the response. Ensure the response is clean HTML.\n### ${bodyContent} ###`,
+      }],
       model: 'gpt-3.5-turbo',
       temperature: 0.7,
       max_tokens: 1000,
