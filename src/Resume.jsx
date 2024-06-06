@@ -34,11 +34,11 @@ const Button = styled.button`
   margin: 10px 0;
   border: none;
   border-radius: 5px;
-  background-color: #007BFF;
+  background-color: #0068d1;
   color: white;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    background-color: #404040;
   }
 `;
 

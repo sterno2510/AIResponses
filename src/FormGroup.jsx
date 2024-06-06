@@ -19,6 +19,16 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
 `;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 100px; /* Adjust the height as needed */
+`;
+
 function FormGroup({
   nameLabel, inputType, field, formValue, changeFunction,
 }) {
@@ -28,14 +38,24 @@ function FormGroup({
         {nameLabel}
         :
       </Label>
-      <Input
-        type={inputType}
-        id={field}
-        name={field}
-        value={formValue}
-        onChange={changeFunction}
-        required
-      />
+      {field === 'summary' || field.includes('description') ? (
+        <Textarea
+          id={field}
+          name={field}
+          value={formValue}
+          onChange={changeFunction}
+          required
+        />
+      ) : (
+        <Input
+          type={inputType}
+          id={field}
+          name={field}
+          value={formValue}
+          onChange={changeFunction}
+          required
+        />
+      )}
     </FormGroupStyled>
   );
 }
@@ -46,7 +66,6 @@ FormGroup.propTypes = {
   formValue: PropTypes.string.isRequired,
   changeFunction: PropTypes.func.isRequired,
   inputType: PropTypes.string.isRequired,
-
 };
 
 export default FormGroup;

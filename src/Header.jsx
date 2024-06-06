@@ -7,35 +7,27 @@ const HeaderContainer = styled.header`
   background-color: #404040;
   padding: 10px 20px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  border-bottom: 5px solid #0068d1;
 `;
 
 const Logo = styled.img`
   max-height: 80px;
   width: auto;
-  margin-left: 45px;
+  margin-right: 10px; /* Adjust margin between logo and slogan */
 `;
 
 const Slogan = styled.img`
   max-height: 75px;
-  width: 50%;
-  margin: 0 auto;
-`;
-
-const SloganContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex: 1;
+  width: auto;
 `;
 
 function Header() {
   return (
     <HeaderContainer>
       <Logo src={logo} alt="Company Logo" />
-      <SloganContainer>
-        <Slogan src={slogan} alt="Company Slogan" />
-      </SloganContainer>
+      <Slogan src={slogan} alt="Company Slogan" />
     </HeaderContainer>
   );
 }
