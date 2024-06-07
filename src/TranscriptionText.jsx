@@ -13,11 +13,9 @@ const TranscribedTextStyled = styled.div`
   text-align: center;
 `;
 
-function TranscriptionText({ text }) {
-  return (
-    <TranscribedTextStyled dangerouslySetInnerHTML={{ __html: text }} />
-  );
-}
+const TranscriptionText = ({ text }) => (
+  <TranscribedTextStyled dangerouslySetInnerHTML={{ __html: text }} />
+);
 
 TranscriptionText.propTypes = {
   text: PropTypes.string.isRequired,

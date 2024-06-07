@@ -1,8 +1,9 @@
+/* eslint-disable react/function-component-definition */
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Label = styled.label`
+const LabelStyled = styled.label`
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
@@ -12,7 +13,7 @@ const FormGroupStyled = styled.div`
   margin-bottom: 20px;
 `;
 
-const Input = styled.input`
+const InputStyled = styled.input`
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -20,7 +21,7 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const Textarea = styled.textarea`
+const TextAreaStyled = styled.textarea`
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -29,36 +30,34 @@ const Textarea = styled.textarea`
   min-height: 100px; /* Adjust the height as needed */
 `;
 
-function FormGroup({
+const FormGroup = ({
   nameLabel, inputType, field, formValue, changeFunction,
-}) {
-  return (
-    <FormGroupStyled>
-      <Label htmlFor={field}>
-        {nameLabel}
-        :
-      </Label>
-      {field === 'summary' || field.includes('description') ? (
-        <Textarea
-          id={field}
-          name={field}
-          value={formValue}
-          onChange={changeFunction}
-          required
-        />
-      ) : (
-        <Input
-          type={inputType}
-          id={field}
-          name={field}
-          value={formValue}
-          onChange={changeFunction}
-          required
-        />
-      )}
-    </FormGroupStyled>
-  );
-}
+}) => (
+  <FormGroupStyled>
+    <LabelStyled htmlFor={field}>
+      {nameLabel}
+      :
+    </LabelStyled>
+    {field === 'summary' || field.includes('description') ? (
+      <TextAreaStyled
+        id={field}
+        name={field}
+        value={formValue}
+        onChange={changeFunction}
+        required
+      />
+    ) : (
+      <InputStyled
+        type={inputType}
+        id={field}
+        name={field}
+        value={formValue}
+        onChange={changeFunction}
+        required
+      />
+    )}
+  </FormGroupStyled>
+);
 
 FormGroup.propTypes = {
   nameLabel: PropTypes.string.isRequired,

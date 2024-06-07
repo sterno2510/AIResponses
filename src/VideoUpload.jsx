@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { React, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -38,6 +37,7 @@ const VideoUpload = () => {
 
       setTranscribedTextState(transcribedText);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error uploading video:', error);
     }
   };

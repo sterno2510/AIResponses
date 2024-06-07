@@ -1,8 +1,9 @@
 import React from 'react';
 import { useRouteError } from 'react-router-dom';
 
-export default function ErrorPage() {
+const ErrorPage = () => {
   const error = useRouteError();
+  // eslint-disable-next-line no-console
   console.error(error);
 
   return (
@@ -14,4 +15,6 @@ export default function ErrorPage() {
       </p>
     </div>
   );
-}
+};
+
+export default ErrorPage;

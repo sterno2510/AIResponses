@@ -11,7 +11,7 @@
 }
 
 .sidebar {
-  width: 12.5%; /* 1/8 of the page */
+  width: 12.5%;
   background-color: #404040;
   color: white;
   padding: 20px;
@@ -41,7 +41,7 @@
 }
 
 .content {
-  width: 87.5%; /* Remaining part of the page */
+  width: 87.5%;
   padding: 20px;
   background-color: #f0f0f0;
 }

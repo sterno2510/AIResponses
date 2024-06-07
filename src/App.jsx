@@ -1,9 +1,10 @@
+/* eslint-disable react/function-component-definition */
 import './App.css';
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 
-function App() {
+const App = () => {
   const location = useLocation();
 
   return (
@@ -36,6 +37,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
