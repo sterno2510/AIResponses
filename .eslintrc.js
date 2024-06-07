@@ -13,7 +13,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    'import', // Add this line
+    'import', // This line is fine
   ],
   rules: {
     'import/no-extraneous-dependencies': ['error', {
@@ -23,6 +23,10 @@ module.exports = {
       ],
       optionalDependencies: false,
       peerDependencies: false,
+    }],
+    'react/function-component-definition': [2, {
+      namedComponents: 'arrow-function',
+      unnamedComponents: 'arrow-function',
     }],
   },
   settings: {
