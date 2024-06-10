@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import FormGroup from './FormGroup';
 
 const ContainerStyled = styled.div`
@@ -51,8 +52,46 @@ const DangerousHtmlStyled = styled.div`
   border-radius: 5px;
 `;
 
+const SpinnerStyled = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const ButtonContentStyled = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SubmitButton = ({ loading, children, type }) => (
+  <ButtonStyled type={type} disabled={loading}>
+    <ButtonContentStyled>
+      {loading && <SpinnerStyled />}
+      {' '}
+      {children}
+    </ButtonContentStyled>
+  </ButtonStyled>
+);
+
+SubmitButton.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  type: PropTypes.string.isRequired,
+};
+
 const Resume = () => {
   const [resume, setResume] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -129,10 +168,16 @@ const Resume = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('/api/openai/resume', formData)
-      .then((res) => {
-        setResume(res.data.content);
-      });
+    setSubmitting(true);
+
+    try {
+      const res = await axios.post('/api/openai/resume', formData);
+      setResume(res.data.content);
+    } catch (error) {
+      // Handle error
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -177,7 +222,7 @@ const Resume = () => {
         ))}
         <ButtonStyled type="button" onClick={addEducation}>Add Another Education</ButtonStyled>
 
-        <ButtonStyled type="submit">Submit</ButtonStyled>
+        <SubmitButton loading={submitting}>Submit</SubmitButton>
       </FormStyled>
 
       <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
