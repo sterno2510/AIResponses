@@ -166,6 +166,19 @@ const Resume = () => {
     });
   };
 
+  const htmlContent = {
+    content: resume,
+  };
+
+  const createPDF = async () => {
+    try {
+      const res = await axios.post('/api/convertToPdf', htmlContent);
+      setResume(res.data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -174,59 +187,62 @@ const Resume = () => {
       const res = await axios.post('/api/openai/resume', formData);
       setResume(res.data.content);
     } catch (error) {
-      // Handle error
+      console.log(error);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <ContainerStyled>
-      <TitleStyled>Update Your Resume</TitleStyled>
-      <FormStyled onSubmit={handleSubmit}>
-        <FormGroup nameLabel="Full Name" inputType="text" field="fullName" formValue={formData.fullName} changeFunction={handleChange} />
-        <FormGroup nameLabel="Email" inputType="email" field="email" formValue={formData.email} changeFunction={handleChange} />
-        <FormGroup nameLabel="Location" inputType="text" field="location" formValue={formData.location} changeFunction={handleChange} />
-        <FormGroup nameLabel="LinkedIn URL" inputType="url" field="linkedin" formValue={formData.linkedin} changeFunction={handleChange} />
-        <FormGroup nameLabel="Summary" inputType="text" field="summary" formValue={formData.summary} changeFunction={handleChange} />
-        <FormGroup nameLabel="Skills" inputType="text" field="skills" formValue={formData.skills} changeFunction={handleChange} />
+    <>
+      <ContainerStyled>
+        <TitleStyled>Update Your Resume</TitleStyled>
+        <FormStyled onSubmit={handleSubmit}>
+          <FormGroup nameLabel="Full Name" inputType="text" field="fullName" formValue={formData.fullName} changeFunction={handleChange} />
+          <FormGroup nameLabel="Email" inputType="email" field="email" formValue={formData.email} changeFunction={handleChange} />
+          <FormGroup nameLabel="Location" inputType="text" field="location" formValue={formData.location} changeFunction={handleChange} />
+          <FormGroup nameLabel="LinkedIn URL" inputType="url" field="linkedin" formValue={formData.linkedin} changeFunction={handleChange} />
+          <FormGroup nameLabel="Summary" inputType="text" field="summary" formValue={formData.summary} changeFunction={handleChange} />
+          <FormGroup nameLabel="Skills" inputType="text" field="skills" formValue={formData.skills} changeFunction={handleChange} />
 
-        {formData.workExperience.map((experience, index) => (
-          <SectionStyled key={experience.id}>
-            <SectionTitleStyled>
-              Work Experience
-              {index + 1}
-            </SectionTitleStyled>
-            <FormGroup nameLabel="Company" inputType="text" field={`company-${index}`} formValue={experience.company} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
+          {formData.workExperience.map((experience, index) => (
+            <SectionStyled key={experience.id}>
+              <SectionTitleStyled>
+                Work Experience
+                {index + 1}
+              </SectionTitleStyled>
+              <FormGroup nameLabel="Company" inputType="text" field={`company-${index}`} formValue={experience.company} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
 
-            <FormGroup nameLabel="Role" inputType="text" field={`role-${index}`} formValue={experience.role} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
-            <FormGroup nameLabel="Start Date" inputType="text" field={`startDate-${index}`} formValue={experience.startDate} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
-            <FormGroup nameLabel="End Date" inputType="text" field={`endDate-${index}`} formValue={experience.endDate} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
-            <FormGroup nameLabel="Description" inputType="text" field={`description-${index}`} formValue={experience.description} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
-          </SectionStyled>
-        ))}
-        <ButtonStyled type="button" onClick={addWorkExperience}>Add Another Job</ButtonStyled>
+              <FormGroup nameLabel="Role" inputType="text" field={`role-${index}`} formValue={experience.role} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
+              <FormGroup nameLabel="Start Date" inputType="text" field={`startDate-${index}`} formValue={experience.startDate} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
+              <FormGroup nameLabel="End Date" inputType="text" field={`endDate-${index}`} formValue={experience.endDate} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
+              <FormGroup nameLabel="Description" inputType="text" field={`description-${index}`} formValue={experience.description} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
+            </SectionStyled>
+          ))}
+          <ButtonStyled type="button" onClick={addWorkExperience}>Add Another Job</ButtonStyled>
 
-        {formData.education.map((edu, index) => (
-          <SectionStyled key={edu.id}>
-            <SectionTitleStyled>
-              Education
-              {index + 1}
-            </SectionTitleStyled>
-            <FormGroup nameLabel="School" inputType="text" field={`school-${index}`} formValue={edu.school} changeFunction={(e) => handleEducationChange(index, e)} />
-            <FormGroup nameLabel="Degree" inputType="text" field={`degree-${index}`} formValue={edu.degree} changeFunction={(e) => handleEducationChange(index, e)} />
-            <FormGroup nameLabel="Field of Study" inputType="text" field={`fieldOfStudy-${index}`} formValue={edu.fieldOfStudy} changeFunction={(e) => handleEducationChange(index, e)} />
-            <FormGroup nameLabel="Start Date" inputType="text" field={`startDate-${index}`} formValue={edu.startDate} changeFunction={(e) => handleEducationChange(index, e)} />
-            <FormGroup nameLabel="End Date" inputType="text" field={`endDate-${index}`} formValue={edu.endDate} changeFunction={(e) => handleEducationChange(index, e)} />
-          </SectionStyled>
-        ))}
-        <ButtonStyled type="button" onClick={addEducation}>Add Another Education</ButtonStyled>
+          {formData.education.map((edu, index) => (
+            <SectionStyled key={edu.id}>
+              <SectionTitleStyled>
+                Education
+                {index + 1}
+              </SectionTitleStyled>
+              <FormGroup nameLabel="School" inputType="text" field={`school-${index}`} formValue={edu.school} changeFunction={(e) => handleEducationChange(index, e)} />
+              <FormGroup nameLabel="Degree" inputType="text" field={`degree-${index}`} formValue={edu.degree} changeFunction={(e) => handleEducationChange(index, e)} />
+              <FormGroup nameLabel="Field of Study" inputType="text" field={`fieldOfStudy-${index}`} formValue={edu.fieldOfStudy} changeFunction={(e) => handleEducationChange(index, e)} />
+              <FormGroup nameLabel="Start Date" inputType="text" field={`startDate-${index}`} formValue={edu.startDate} changeFunction={(e) => handleEducationChange(index, e)} />
+              <FormGroup nameLabel="End Date" inputType="text" field={`endDate-${index}`} formValue={edu.endDate} changeFunction={(e) => handleEducationChange(index, e)} />
+            </SectionStyled>
+          ))}
+          <ButtonStyled type="button" onClick={addEducation}>Add Another Education</ButtonStyled>
 
-        <SubmitButton loading={submitting}>Submit</SubmitButton>
-      </FormStyled>
+          <SubmitButton loading={submitting}>Submit</SubmitButton>
+        </FormStyled>
 
-      <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
-    </ContainerStyled>
+        <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
+      </ContainerStyled>
+      <ButtonStyled type="button" onClick={createPDF}>PDF</ButtonStyled>
+    </>
   );
 };
 
