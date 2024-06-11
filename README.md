@@ -18,6 +18,9 @@ Make sure you have the following installed:
 - Node.js - version 22.2.0
 - npm
 
+You will need to get an OPEN AI API Key: 
+ - Follow step 2 in the Quick Start guide of the OpenAI Api Docs: https://platform.openai.com/docs/quickstart
+
 ### Installation
 
 1. Clone the repository:
@@ -31,7 +34,12 @@ Make sure you have the following installed:
     npm install
     ```
 
-3. Update the `.env` file to include your OpenAI API key:
+3. Install FFmpeg:
+    ```sh
+    npm install fluent-ffmpeg
+    ```
+
+4. Update the `.env` file to include your OpenAI API key:
     ```sh
     OPENAI_API_KEY=your_openai_api_key_here
     ```
