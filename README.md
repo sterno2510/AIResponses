@@ -1,3 +1,5 @@
+![Alt text](./src/assets/logoComplete.png)
+
 # AI Companion
 
 AI Companion is a comprehensive service designed to be your one-stop shop for all AI needs. This service currently offers capabilities such as resume generation and audio transcription from uploaded videos. With continuous updates, AI Companion aims to become a vast library of AI tools and functionalities.
