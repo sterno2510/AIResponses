@@ -166,14 +166,25 @@ const Resume = () => {
     });
   };
 
-  const htmlContent = {
-    content: resume,
-  };
-
   const createPDF = async () => {
     try {
-      const res = await axios.post('/api/convertToPdf', htmlContent);
-      setResume(res.data.content);
+      const res = await axios.post('/api/convertToPdf', { content: resume }, {
+        responseType: 'blob',
+      });
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(pdfBlob);
+      const tempLink = document.createElement('a');
+      tempLink.href = url;
+      tempLink.setAttribute(
+        'download',
+        'resume.pdf',
+      );
+
+      document.body.appendChild(tempLink);
+      tempLink.click();
+
+      document.body.removeChild(tempLink);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.log(error);
     }
@@ -241,7 +252,7 @@ const Resume = () => {
 
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
       </ContainerStyled>
-      <ButtonStyled type="button" onClick={createPDF}>PDF</ButtonStyled>
+      <ButtonStyled type="button" onClick={createPDF}>Download your Resume as a PDF</ButtonStyled>
     </>
   );
 };

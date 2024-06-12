@@ -1,26 +1,28 @@
 const puppeteer = require('puppeteer');
 
 const convertToPDF = async (req, res) => {
-  // Launch a new browser instance
   console.log('Starting to convert to PDF');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  // Set the content to your HTML
   const htmlContent = req.body.content;
 
   await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
 
-  // Generate the PDF
-  await page.pdf({
-    path: 'sample.pdf', // Path to save the PDF file
-    format: 'A4', // Page size
-    printBackground: true, // Print background graphics
+  const pdfBuffer = await page.pdf({
+    format: 'A4',
+    printBackground: true,
   });
 
-  // Close the browser instance
   await browser.close();
-  res.sendStatus(200);
+
+  res.set({
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="sample.pdf"',
+    'Content-Length': pdfBuffer.length,
+  });
+
+  res.send(pdfBuffer);
 };
 
 module.exports = {
