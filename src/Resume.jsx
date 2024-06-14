@@ -1,9 +1,12 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
+import HTMLtoDOCX from 'html-to-docx';
+import { saveAs } from 'file-saver';
 import axios from 'axios';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import FormGroup from './FormGroup';
+import DownloadButton from './DownloadButton';
 
 const ContainerStyled = styled.div`
   max-width: 800px;
@@ -204,6 +207,21 @@ const Resume = () => {
     }
   };
 
+  const downloadDocxFile = async () => {
+    try {
+      const html = '<h1>Hello, World!</h1>'; // Replace with your HTML content
+      const docx = await HTMLtoDOCX(html);
+
+      // Create a Blob from the DOCX data
+      const blob = new Blob([docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+
+      // Use file-saver library to save the Blob as a DOCX file
+      saveAs(blob, 'example.docx');
+    } catch (error) {
+      console.error('Error creating DOCX file:', error);
+    }
+  };
+
   return (
     <>
       <ContainerStyled>
@@ -252,7 +270,12 @@ const Resume = () => {
 
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
       </ContainerStyled>
-      <ButtonStyled type="button" onClick={createPDF}>Download your Resume as a PDF</ButtonStyled>
+      <ButtonStyled type="button" onClick={createPDF}>Download Resume as a PDF</ButtonStyled>
+      <DownloadButton
+        downloadDocxFile={downloadDocxFile}
+      >
+        Download Resume as a DOCX
+      </DownloadButton>
     </>
   );
 };
