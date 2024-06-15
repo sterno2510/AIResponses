@@ -1,93 +1,18 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import FormGroup from './FormGroup';
-
-const ContainerStyled = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const TitleStyled = styled.h2`
-  text-align: center;
-`;
-
-const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ButtonStyled = styled.button`
-  width: fit-content;
-  padding: 10px 20px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 5px;
-  background-color: #0068d1;
-  color: white;
-  cursor: pointer;
-  &:hover {
-    background-color: #404040;
-  }
-`;
-
-const SectionStyled = styled.section`
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-`;
-
-const SectionTitleStyled = styled.h3`
-  margin-top: 0;
-`;
-
-const DangerousHtmlStyled = styled.div`
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const SpinnerStyled = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #333;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
-  margin-right: 10px;
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const ButtonContentStyled = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const SubmitButton = ({ loading, children, type }) => (
-  <ButtonStyled type={type} disabled={loading}>
-    <ButtonContentStyled>
-      {loading && <SpinnerStyled />}
-      {' '}
-      {children}
-    </ButtonContentStyled>
-  </ButtonStyled>
-);
-
-SubmitButton.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-  type: PropTypes.string.isRequired,
-};
+import {
+  ContainerStyled,
+  TitleStyled,
+  FormStyled,
+  ButtonStyled,
+  SectionStyled,
+  SectionTitleStyled,
+  DangerousHtmlStyled,
+} from './ResumeStyledComponents';
+import SubmitButton from './SubmitButton';
+import createPDF from './helpers/createPdf';
 
 const Resume = () => {
   const [resume, setResume] = useState('');
@@ -166,30 +91,6 @@ const Resume = () => {
     });
   };
 
-  const createPDF = async () => {
-    try {
-      const res = await axios.post('/api/convertToPdf', { content: resume }, {
-        responseType: 'blob',
-      });
-      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(pdfBlob);
-      const tempLink = document.createElement('a');
-      tempLink.href = url;
-      tempLink.setAttribute(
-        'download',
-        'resume.pdf',
-      );
-
-      document.body.appendChild(tempLink);
-      tempLink.click();
-
-      document.body.removeChild(tempLink);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -218,10 +119,7 @@ const Resume = () => {
 
           {formData.workExperience.map((experience, index) => (
             <SectionStyled key={experience.id}>
-              <SectionTitleStyled>
-                Work Experience
-                {index + 1}
-              </SectionTitleStyled>
+              <SectionTitleStyled>Work Experience</SectionTitleStyled>
               <FormGroup nameLabel="Company" inputType="text" field={`company-${index}`} formValue={experience.company} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
 
               <FormGroup nameLabel="Role" inputType="text" field={`role-${index}`} formValue={experience.role} changeFunction={(e) => handleWorkExperienceChange(index, e)} />
@@ -234,10 +132,7 @@ const Resume = () => {
 
           {formData.education.map((edu, index) => (
             <SectionStyled key={edu.id}>
-              <SectionTitleStyled>
-                Education
-                {index + 1}
-              </SectionTitleStyled>
+              <SectionTitleStyled>Education</SectionTitleStyled>
               <FormGroup nameLabel="School" inputType="text" field={`school-${index}`} formValue={edu.school} changeFunction={(e) => handleEducationChange(index, e)} />
               <FormGroup nameLabel="Degree" inputType="text" field={`degree-${index}`} formValue={edu.degree} changeFunction={(e) => handleEducationChange(index, e)} />
               <FormGroup nameLabel="Field of Study" inputType="text" field={`fieldOfStudy-${index}`} formValue={edu.fieldOfStudy} changeFunction={(e) => handleEducationChange(index, e)} />
@@ -252,7 +147,7 @@ const Resume = () => {
 
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
       </ContainerStyled>
-      <ButtonStyled type="button" onClick={createPDF}>Download your Resume as a PDF</ButtonStyled>
+      <ButtonStyled type="button" onClick={() => { createPDF(resume); }}>Download your Resume as a PDF</ButtonStyled>
     </>
   );
 };
