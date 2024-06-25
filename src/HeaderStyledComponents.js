@@ -7,13 +7,13 @@ export const HeaderContainerStyled = styled.header`
   justify-content: center;
   align-items: center;
   border-bottom: 5px solid #0068d1;
-  position: relative; /* Added for positioning the logout button */
+  position: relative;
 `;
 
 export const LogoStyled = styled.img`
   max-height: 80px;
   width: auto;
-  margin-right: 10px; /* Adjust margin between logo and slogan */
+  margin-right: 10px;
 `;
 
 export const SloganStyled = styled.img`
