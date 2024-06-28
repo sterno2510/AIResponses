@@ -1,4 +1,3 @@
-const OpenAI = require('openai');
 const dotenv = require('dotenv');
 const path = require('path');
 
@@ -18,20 +17,25 @@ const cors = require('cors');
 const { submitResume } = require('./controllers/resume');
 const { sendVideoForTranscription } = require('./controllers/transcriptions');
 const { convertToPDF } = require('./controllers/convertToPdf');
+const { saveOrUpdateUser } = require('./db/db');
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 const upload = multer({ dest: 'uploads/' });
 
-// SHOULD WE USE THIS AND PASS INTO EACH CALL?
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-
 // routes for OpenAI api calls
 app.post('/api/openai/resume', submitResume);
 app.post('/api/openai/transcribe', upload.single('video'), sendVideoForTranscription);
 app.post('/api/convertToPdf', convertToPDF);
+app.get('/update', (req, res) => {
+  saveOrUpdateUser(req.query.name, req.query.email)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 // Catch-all route for React Router
 app.get('*', (req, res) => {

@@ -7,8 +7,10 @@ import Header from './Header';
 import Login from './Login';
 
 const App = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  console.log('user', user, 'is authenticated', isAuthenticated, 'loading', isLoading);
+  const { isAuthenticated } = useAuth0();
+
+  // NEED TO USE REDIRECT TO A ROUTE HERE INSTEAD OF CONDITIONAL
+  // RENDERING AS THIS CAUSES THE PAGE TO BLINK
   return (
     <>
       <Header />

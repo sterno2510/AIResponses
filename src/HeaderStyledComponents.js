@@ -34,5 +34,12 @@ export const ProfileImageStyled = styled.img`
   max-height: 60px;
   width: auto;
   border-radius: 50%;
-  margin-bottom: 15px;
+`;
+
+export const VisitCounterStyled = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: white;
 `;
