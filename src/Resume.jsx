@@ -142,7 +142,7 @@ const Resume = () => {
           ))}
           <ButtonStyled type="button" onClick={addEducation}>Add Another Education</ButtonStyled>
 
-          <SubmitButton loading={submitting}>Submit</SubmitButton>
+          <SubmitButton type="submit" loading={submitting}>Submit</SubmitButton>
         </FormStyled>
 
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />

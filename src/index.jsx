@@ -5,6 +5,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorPage from './error-page';
@@ -36,7 +38,16 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={router} />,
+  <Auth0Provider
+    domain="dev-qz6qtpf8evrwt4w5.us.auth0.com"
+    clientId="1INbrbiI2xJI7NBweEeEYJncfonRMSSB"
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
+  >
+    <RouterProvider router={router} />
+  </Auth0Provider>,
+
 );
 
 // If you want to start measuring performance in your app, pass a function

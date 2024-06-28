@@ -20,7 +20,7 @@ Make sure you have the following installed:
 - Node.js - version 22.2.0
 - npm
 
-You will need to get an OPEN AI API Key: 
+You will need to get an OPEN AI API Key:
  - Follow step 2 in the Quick Start guide of the OpenAI Api Docs: https://platform.openai.com/docs/quickstart
 
 ### Installation
@@ -55,7 +55,7 @@ You will need to get an OPEN AI API Key:
 
 2. You must have the express server started to handle api calls. you can start the service directly with Node.js:
     ```sh
-    node server.js
+    npm run server
     ```
 
 ## Contributing
