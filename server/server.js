@@ -17,6 +17,7 @@ const cors = require('cors');
 const { submitResume } = require('./controllers/resume');
 const { sendVideoForTranscription } = require('./controllers/transcriptions');
 const { convertToPDF } = require('./controllers/convertToPdf');
+const AICompanions = require('./db/db');
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
