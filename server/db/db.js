@@ -11,6 +11,15 @@ const resumeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    visitCount: {
+      type: Number,
+      default: 1,
+    },
   },
   {
     timestamps: true,
@@ -19,4 +28,22 @@ const resumeSchema = new mongoose.Schema(
 
 const AiCompanionResume = mongoose.model(process.env.DB_NAME, resumeSchema);
 
-module.exports = AiCompanionResume;
+const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate(
+  { email },
+  {
+    name: username,
+    email,
+    $inc: { visitCount: 1 },
+  },
+  { new: true, upsert: true },
+)
+  .then((updatedUser) => {
+    console.log('User saved or updated:', updatedUser);
+    return updatedUser.visitCount;
+  })
+  .catch((error) => {
+    console.error('Error saving or updating user:', error);
+    throw error;
+  });
+
+module.exports = { saveOrUpdateUser };
