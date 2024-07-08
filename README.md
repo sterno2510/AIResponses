@@ -31,19 +31,31 @@ You will need to get an OPEN AI API Key:
     cd AIcompanion
     ```
 
-2. Install the dependencies:
+2. Install the dependencies for the client side:
     ```sh
     npm install
     ```
 
-3. Install FFmpeg:
+3. Install the dependencies for the server side:
+    ```sh
+    cd server
+    npm install
+    ```
+
+4. Install FFmpeg:
     ```sh
     npm install fluent-ffmpeg
     ```
 
-4. Update the `.env` file to include your OpenAI API key:
+5. Update the `.env` file to include your OpenAI API key and DB name:
     ```sh
     OPENAI_API_KEY=your_openai_api_key_here
+    DB_NAME=AiCompanionResume
+    ```
+
+6. Start docker container for DB
+    ```sh
+    docker-compose up -d
     ```
 
 ### Running the Service
