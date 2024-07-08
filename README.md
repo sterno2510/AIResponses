@@ -19,6 +19,8 @@ Make sure you have the following installed:
 
 - Node.js - version 22.2.0
 - npm
+- MongoDB - latest version https://www.mongodb.com/docs/manual/installation/
+- Docker - latest version https://docs.docker.com/engine/install/
 
 You will need to get an OPEN AI API Key:
  - Follow step 2 in the Quick Start guide of the OpenAI Api Docs: https://platform.openai.com/docs/quickstart
