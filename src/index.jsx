@@ -13,6 +13,7 @@ import ErrorPage from './error-page';
 import VideoUpload from './VideoUpload';
 import Resume from './Resume';
 import CoverLetter from './CoverLetter';
+import ImageCreation from './ImageCreation';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: 'transcribe',
         element: <VideoUpload />,
+      },
+      {
+        path: 'image-creation',
+        element: <ImageCreation />,
       },
     ],
   },

@@ -22,6 +22,9 @@ const LandingPage = () => {
               <li>
                 <Link to="/transcribe">Extract Audio from Video</Link>
               </li>
+              <li>
+                <Link to="/image-creation">Create AI Images</Link>
+              </li>
             </ul>
           </nav>
         </div>
