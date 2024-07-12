@@ -39,12 +39,11 @@ app.get('/update', (req, res) => {
 
 // Catch-all route for React Router
 app.get('*', (req, res) => {
-  console.log('getting main page');
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Global error handler middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error('Unhandled error:', err);
   res.status(500).send('Internal Server Error');
 });

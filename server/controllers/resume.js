@@ -6,6 +6,12 @@ const openai = new OpenAI({
 });
 
 const submitResume = async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+  console.log('am I in here?');
+
   try {
     const bodyContent = JSON.stringify(req.body, null, 2);
     // const completion = await openai.chat.completions.create({
@@ -28,14 +34,9 @@ const submitResume = async (req, res) => {
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: req.query.message || 'Say this is a test' }],
       stream: true,
-    }, {
-      responseType: 'stream',
-    });
-    // eslint-disable-next-line no-restricted-syntax
-    stream.data.on('data', (chunk) => {
+    }); stream.on('data', (chunk) => {
       const payloads = chunk.toString().split('\n\n');
-      // eslint-disable-next-line no-restricted-syntax
-      for (const payload of payloads) {
+      payloads.forEach((payload) => {
         if (payload.startsWith('data: ')) {
           const data = payload.replace('data: ', '');
           const json = JSON.parse(data);
@@ -43,14 +44,19 @@ const submitResume = async (req, res) => {
             res.write(`data: ${json.choices[0].delta.content}\n\n`);
           }
         }
-      }
+      });
     });
 
-    stream.data.on('end', () => {
+    stream.on('end', () => {
       res.end();
     });
-  } catch (error) {
-    console.error('Error:', error);
+
+    stream.on('error', (err) => {
+      console.error('Stream error:', err);
+      res.end();
+    });
+  } catch (err) {
+    console.error('Error:', err);
     res.end();
   }
   // console.log(completion.choices[0].message);

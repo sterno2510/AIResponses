@@ -1,6 +1,4 @@
-/* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
-import axios from 'axios';
 import FormGroup from './FormGroup';
 import {
   ContainerStyled,
@@ -91,18 +89,33 @@ const Resume = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
 
-    try {
-      const res = await axios.post('/api/openai/resume', formData);
-      setResume(res.data.content);
-    } catch (error) {
-      console.log(error);
-    } finally {
+    const eventSource = new EventSource('/api/openai/resume');
+
+    eventSource.onmessage = (event) => {
+      setResume((prevResume) => prevResume + event.data);
+    };
+
+    eventSource.onerror = (err) => {
+      console.error('EventSource failed:', err);
+      eventSource.close();
       setSubmitting(false);
-    }
+    };
+
+    eventSource.onopen = () => {
+      fetch('/api/openai/resume', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      }).catch((error) => {
+        console.error('Fetch failed:', error);
+      });
+    };
   };
 
   return (
