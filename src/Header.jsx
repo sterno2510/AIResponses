@@ -1,9 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState, useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Button from '@mui/material/Button';
 import logo from './assets/ailogo.png';
 import slogan from './assets/slogan.png';
@@ -52,7 +50,7 @@ const Header = () => {
               </VisitCounterStyled>
             </>
           )}
-          <Button onClick={logOut} variant="outlined" href="#outlined-buttons">
+          <Button ={logOut} variant="outlined" href="#outlined-buttons">
             Log Out
           </Button>
         </LogoutButtonContainerStyled>
