@@ -18,6 +18,7 @@ const { submitResume } = require('./controllers/resume');
 const { sendVideoForTranscription } = require('./controllers/transcriptions');
 const { convertToPDF } = require('./controllers/convertToPdf');
 const { saveOrUpdateUser } = require('./db/db');
+const { imageCreation } = require('./controllers/imageCreation');
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
@@ -27,6 +28,7 @@ const upload = multer({ dest: 'uploads/' });
 app.post('/api/openai/resume', submitResume);
 app.post('/api/openai/transcribe', upload.single('video'), sendVideoForTranscription);
 app.post('/api/convertToPdf', convertToPDF);
+app.post('/api/openai/image-creation', imageCreation);
 app.get('/update', (req, res) => {
   saveOrUpdateUser(req.query.name, req.query.email)
     .then((response) => {
