@@ -8,7 +8,7 @@ const openai = new OpenAI({
 const imageCreation = async (req, res) => {
   try {
     const bodyContent = req.body.data;
-    console.log('body content', bodyContent);
+    console.log('generating image');
     const completion = await openai.images.generate({
       prompt: `${bodyContent}`,
       model: 'dall-e-3',
@@ -16,8 +16,7 @@ const imageCreation = async (req, res) => {
       response_format: 'url',
       size: '1024x1024',
     });
-    console.log(completion);
-    // res.send(completion.choices[0].message);
+    res.send(completion);
   } catch (error) {
     console.error('Error generating image:', error);
     res.status(500).send('Error generating image');
