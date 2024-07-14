@@ -7,27 +7,20 @@ const openai = new OpenAI({
 
 const imageCreation = async (req, res) => {
   try {
-    const bodyContent = JSON.stringify(req.body, null, 2);
+    const bodyContent = req.body.data;
     console.log('body content', bodyContent);
-    const completion = await openai.chat.completions.create({
-      messages: [{
-        role: 'system',
-        content: 'You are an expert in creating professional resumes in HTML format.',
-      },
-      {
-        role: 'user',
-        content: '',
-      }],
-      model: 'gpt-3.5-turbo',
-      temperature: 0.7,
-      max_tokens: 1000,
-      top_p: 1,
+    const completion = await openai.images.generate({
+      prompt: `${bodyContent}`,
+      model: 'dall-e-3',
+      n: 1,
+      response_format: 'url',
+      size: '1024x1024',
     });
-    console.log(completion.choices[0].message);
-    res.send(completion.choices[0].message);
+    console.log(completion);
+    // res.send(completion.choices[0].message);
   } catch (error) {
-    console.error('Error analyzing text:', error);
-    res.status(500).send('Error analyzing text');
+    console.error('Error generating image:', error);
+    res.status(500).send('Error generating image');
   }
 };
 
