@@ -7,7 +7,7 @@ import {
 } from './ResumeStyledComponents';
 
 const SubmitButton = ({
-  loading, children, type, onClick,
+  loading, children, type, onClick = () => {},
 }) => (
   <ButtonStyled type={type} disabled={loading} onClick={onClick}>
     <ButtonContentStyled>
@@ -22,11 +22,8 @@ SubmitButton.propTypes = {
   loading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
   onClick: PropTypes.func,
-};
-
-SubmitButton.defaultProps = {
-  onClick: () => {}, // Default to no-op function
 };
 
 export default SubmitButton;
