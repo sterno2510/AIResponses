@@ -50,7 +50,7 @@ const Header = () => {
               </VisitCounterStyled>
             </>
           )}
-          <Button ={logOut} variant="outlined" href="#outlined-buttons">
+          <Button onClick={logOut} variant="outlined" href="#outlined-buttons">
             Log Out
           </Button>
         </LogoutButtonContainerStyled>
