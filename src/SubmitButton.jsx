@@ -22,7 +22,11 @@ SubmitButton.propTypes = {
   loading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+};
+
+SubmitButton.defaultProps = {
+  onClick: () => {}, // Default to no-op function
 };
 
 export default SubmitButton;
