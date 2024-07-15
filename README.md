@@ -6,8 +6,10 @@ AI Companion is a comprehensive service designed to be your one-stop shop for al
 
 ## Features
 
-- **Resume Generation**: Automatically generate professional resumes based on user input.
+- **Resume Generation**: Automatically generate professional resumes by filling in a form asking for all of their professional information.
 - **Audio Transcription**: Convert audio from uploaded videos to text accurately and efficiently.
+- **Cover Letter Creation**: Automatically generate professional cover letters based on a job description and resume.
+- **Image Creation**: Create images using OpenAI's Dall-E-3 model.  Users input an image description to generate an image.
 
 More features are planned for future updates. We welcome any suggestions for additional functionalities that could enhance the service.
 
