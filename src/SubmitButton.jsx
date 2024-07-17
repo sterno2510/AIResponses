@@ -9,9 +9,9 @@ import {
 const SubmitButton = ({
   loading, children, type, onClick = () => {},
 }) => (
-  <ButtonStyled type={type} disabled={loading} onClick={onClick}>
+  <ButtonStyled data-testid="submit-button" type={type} disabled={loading} onClick={onClick}>
     <ButtonContentStyled>
-      {loading && <SpinnerStyled />}
+      {loading && <SpinnerStyled data-testid="spinner" />}
       {' '}
       {children}
     </ButtonContentStyled>
