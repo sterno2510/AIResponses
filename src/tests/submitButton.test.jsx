@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import SubmitButton from './SubmitButton';
+import SubmitButton from '../SubmitButton';
 
 describe('SubmitButton', () => {
   it('renders the button with children', () => {
