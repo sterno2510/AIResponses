@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    jest: true, // Add Jest environment
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -14,14 +14,14 @@ module.exports = {
   },
   plugins: [
     'react',
-    'import', // This line is fine
-    'jest', // Add jest plugin
+    'import',
+    'jest',
   ],
   rules: {
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: [
-        '**/*.test.js', // Adjust according to your test file patterns
-        '**/test/**', // Adjust according to your test directory patterns
+        '**/*.test.js',
+        '**/test/**',
       ],
       optionalDependencies: false,
       peerDependencies: false,
