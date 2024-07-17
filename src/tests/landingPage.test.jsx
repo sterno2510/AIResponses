@@ -20,6 +20,7 @@ describe('LandingPage', () => {
 
   it('renders the sidebar and main content', () => {
     renderWithRouter(['/']);
+    expect(screen.getByTestId('sidebar')).toBeInTheDocument();
     expect(screen.getByTestId('title')).toBeInTheDocument();
     expect(screen.getByTestId('link-resume')).toBeInTheDocument();
     expect(screen.getByTestId('link-cover-letter')).toBeInTheDocument();
