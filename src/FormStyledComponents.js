@@ -10,9 +10,21 @@ export const TitleStyled = styled.h2`
   text-align: center;
 `;
 
-export const FormStyled = styled.form`
+export const ResumeFormStyled = styled.form`
   display: flex;
   flex-direction: column;
+`;
+
+export const CoverLetterFormStyled = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+`;
+
+export const CoverLetterFormGroupStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 `;
 
 export const ButtonStyled = styled.button`
@@ -66,4 +78,19 @@ export const SpinnerStyled = styled.div`
 export const ButtonContentStyled = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const TextAreaStyled = styled.textarea`
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 500px;
+`;
+
+export const LabelStyled = styled.label`
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
 `;

@@ -1,25 +1,20 @@
-/* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import axios from 'axios';
 import {
   ContainerStyled,
   TitleStyled,
-  FormStyled,
+  CoverLetterFormStyled,
   ButtonStyled,
   DangerousHtmlStyled,
-} from './ResumeStyledComponents';
-import {
-  LabelStyled,
-  // FormGroupStyled,
-  // InputStyled,
+  CoverLetterFormGroupStyled,
   TextAreaStyled,
-} from './FormGroupStyledComponents';
+  LabelStyled,
+} from './FormStyledComponents';
 import SubmitButton from './SubmitButton';
 import createPDF from './helpers/createPdf';
 
 const CoverLetter = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [coverLetter, setCoverLetter] = useState('');
+  const [coverLetter, setCoverLetter] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({});
 
@@ -42,20 +37,27 @@ const CoverLetter = () => {
   };
 
   return (
-    <>
-      <ContainerStyled>
-        <TitleStyled>Create a Cover Letter</TitleStyled>
-        <FormStyled onSubmit={handleSubmit}>
-          <LabelStyled htmlFor="summary">Copy the job description into the text box below</LabelStyled>
+    <ContainerStyled>
+      <TitleStyled>Create a Cover Letter</TitleStyled>
+      <CoverLetterFormStyled onSubmit={handleSubmit}>
+        <CoverLetterFormGroupStyled>
+          <LabelStyled htmlFor="jobDescription">Copy the job description into the text box below</LabelStyled>
           <TextAreaStyled id="jobDescription" name="jobDescription" value={formData.jobDescription} onChange={handleChange} required />
+        </CoverLetterFormGroupStyled>
+        <CoverLetterFormGroupStyled>
           <LabelStyled htmlFor="resume">Copy your resume into the text box below</LabelStyled>
           <TextAreaStyled id="resume" name="resume" value={formData.resume} onChange={handleChange} required />
-          <SubmitButton type="submit" loading={submitting}>Submit</SubmitButton>
-        </FormStyled>
+        </CoverLetterFormGroupStyled>
+        <SubmitButton type="submit" loading={submitting}>Generate Cover Letter</SubmitButton>
+      </CoverLetterFormStyled>
+      {coverLetter
+      && (
+      <>
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: coverLetter }} />
-      </ContainerStyled>
-      <ButtonStyled type="button" onClick={() => { createPDF(coverLetter); }}>Download your Cover Letter as a PDF</ButtonStyled>
-    </>
+        <ButtonStyled type="button" onClick={() => { createPDF(coverLetter); }}>Download your Cover Letter as a PDF</ButtonStyled>
+      </>
+      )}
+    </ContainerStyled>
   );
 };
 

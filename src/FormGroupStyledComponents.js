@@ -24,5 +24,5 @@ export const TextAreaStyled = styled.textarea`
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  min-height: 100px; /* Adjust the height as needed */
+  min-height: 100px;
 `;

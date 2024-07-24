@@ -5,12 +5,12 @@ import FormGroup from './FormGroup';
 import {
   ContainerStyled,
   TitleStyled,
-  FormStyled,
+  ResumeFormStyled,
   ButtonStyled,
   SectionStyled,
   SectionTitleStyled,
   DangerousHtmlStyled,
-} from './ResumeStyledComponents';
+} from './FormStyledComponents';
 import SubmitButton from './SubmitButton';
 import createPDF from './helpers/createPdf';
 
@@ -109,7 +109,7 @@ const Resume = () => {
     <>
       <ContainerStyled>
         <TitleStyled>Update Your Resume</TitleStyled>
-        <FormStyled onSubmit={handleSubmit}>
+        <ResumeFormStyled onSubmit={handleSubmit}>
           <FormGroup nameLabel="Full Name" inputType="text" field="fullName" formValue={formData.fullName} changeFunction={handleChange} />
           <FormGroup nameLabel="Email" inputType="email" field="email" formValue={formData.email} changeFunction={handleChange} />
           <FormGroup nameLabel="Location" inputType="text" field="location" formValue={formData.location} changeFunction={handleChange} />
@@ -143,7 +143,7 @@ const Resume = () => {
           <ButtonStyled type="button" onClick={addEducation}>Add Another Education</ButtonStyled>
 
           <SubmitButton type="submit" loading={submitting}>Submit</SubmitButton>
-        </FormStyled>
+        </ResumeFormStyled>
 
         <DangerousHtmlStyled dangerouslySetInnerHTML={{ __html: resume }} />
       </ContainerStyled>
