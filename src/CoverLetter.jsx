@@ -26,14 +26,16 @@ const CoverLetter = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    try {
-      const res = await axios.post('/api/openai/cover-letter', formData);
-      setCoverLetter(res.data.content);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setSubmitting(false);
-    }
+    await axios.post('/api/openai/cover-letter', formData)
+      .then((res) => {
+        setCoverLetter(res.data.content);
+      })
+      .then(() => {
+        setSubmitting(false);
+      })
+      .catch((err) => {
+        console.log(`The call to the cover letter route errored ${err}`);
+      });
   };
 
   return (
