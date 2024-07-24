@@ -4,7 +4,7 @@ import {
   ButtonStyled,
   SpinnerStyled,
   ButtonContentStyled,
-} from './ResumeStyledComponents';
+} from './FormStyledComponents';
 
 const SubmitButton = ({
   loading, children, type, onClick = () => {},
