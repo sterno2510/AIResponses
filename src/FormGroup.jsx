@@ -16,7 +16,7 @@ const FormGroup = ({
       {nameLabel}
       :
     </LabelStyled>
-    {field === 'summary' || field.includes('description') || field.includes('table') ? (
+    {field === 'summary' || field.includes('description') || field.includes('Schema') ? (
       <TextAreaStyled
         id={field}
         name={field}

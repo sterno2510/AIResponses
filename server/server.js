@@ -20,6 +20,7 @@ const { convertToPDF } = require('./controllers/convertToPdf');
 const { saveOrUpdateUser } = require('./db/db');
 const { imageCreation } = require('./controllers/imageCreation');
 const { coverLetter } = require('./controllers/coverLetter');
+const { sqlQuery } = require('./controllers/sqlQuery');
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
@@ -31,6 +32,7 @@ app.post('/api/openai/transcribe', upload.single('video'), sendVideoForTranscrip
 app.post('/api/convertToPdf', convertToPDF);
 app.post('/api/openai/image-creation', imageCreation);
 app.post('/api/openai/cover-letter', coverLetter);
+app.post('/api/openai/sql-query', sqlQuery);
 app.get('/update', (req, res) => {
   saveOrUpdateUser(req.query.name, req.query.email)
     .then((response) => {
