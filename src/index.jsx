@@ -14,6 +14,7 @@ import VideoUpload from './VideoUpload';
 import Resume from './Resume';
 import CoverLetter from './CoverLetter';
 import ImageCreation from './ImageCreation';
+import SqlGenerator from './SqlGenerator';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: 'image-creation',
         element: <ImageCreation />,
+      },
+      {
+        path: 'sql-generator',
+        element: <SqlGenerator />,
       },
     ],
   },
