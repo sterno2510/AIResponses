@@ -1,4 +1,7 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuidv4 } from 'uuid';
 import {
   ContainerStyled,
   ResumeFormStyled,
@@ -8,43 +11,43 @@ import {
 import FormGroup from './FormGroup';
 
 const SqlQueryGenerator = () => {
-  const [formData, setFormData] = useState({ queryDescription: '' });
-  const [tables, setTables] = useState([{ tableName: '', tableSchema: '' }]);
+  const [formData, setFormData] = useState({});
+  const [tables, setTables] = useState([{ id: uuidv4() }]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log(formData, tables);
   };
 
-  const handleChange = (e, index, field) => {
+  const handleChange = (e, id, field) => {
     const { name, value } = e.target;
     if (field === 'queryDescription') {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     } else {
-      const newTables = [...tables];
-      newTables[index][name] = value;
-      setTables(newTables);
+      setTables((prevTables) => prevTables.map((table) => (table.id === id ? { ...table, [name]: value } : table)));
     }
   };
 
   const addTable = () => {
-    setTables([...tables, { tableName: '', tableSchema: '' }]);
+    setTables((prevTables) => [
+      ...prevTables,
+      { id: uuidv4(), tName: '', tableSchema: '' },
+    ]);
   };
 
   return (
     <ContainerStyled>
       <TitleStyled>SQL Query Generator</TitleStyled>
       <ResumeFormStyled onSubmit={handleSubmit}>
-        {tables.map((table, index) => (
-          <div key={table.tableName}>
+        {tables.map((table) => (
+          <div key={table.id}>
             <FormGroup
-              nameLabel="Table Name"
+              nameLabel={`Table Name: ${table.tName}`}
               inputType="text"
-              field="tableName"
+              field="tName"
               placeHolder="Enter your table name... (e.g) Users"
-              formValue={table.tableName}
-              changeFunction={(e) => handleChange(e, index, 'table')}
+              formValue={table.tName}
+              changeFunction={(e) => handleChange(e, table.id, 'table')}
             />
             <FormGroup
               nameLabel="Database Tables (e.g., Users: id, name, email, age; Orders: order_id, user_id, product_name)"
@@ -52,7 +55,7 @@ const SqlQueryGenerator = () => {
               field="tableSchema"
               placeHolder="Enter database table schema"
               formValue={table.tableSchema}
-              changeFunction={(e) => handleChange(e, index, 'table')}
+              changeFunction={(e) => handleChange(e, table.id, 'table')}
             />
           </div>
         ))}

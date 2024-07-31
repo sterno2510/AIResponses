@@ -9,7 +9,7 @@ import {
 } from './FormGroupStyledComponents';
 
 const FormGroup = ({
-  nameLabel, inputType, field, formValue, changeFunction, placeHolder = '',
+  nameLabel, inputType, field, formValue = '', changeFunction, placeHolder = 'Enter Input...',
 }) => (
   <FormGroupStyled>
     <LabelStyled htmlFor={field}>
@@ -22,7 +22,7 @@ const FormGroup = ({
         name={field}
         value={formValue}
         onChange={changeFunction}
-        placeHolder={placeHolder}
+        placeholder={placeHolder}
         required
       />
     ) : (
@@ -32,7 +32,7 @@ const FormGroup = ({
         name={field}
         value={formValue}
         onChange={changeFunction}
-        placeHolder={placeHolder}
+        placeholder={placeHolder}
         required
       />
     )}
