@@ -6,7 +6,7 @@ const openai = new OpenAI({
 });
 
 const sqlQuery = async (req, res) => {
-  console.log('SQL Query Generating', req.body);
+  console.log('SQL Query Generating:', req.body);
   try {
     const completion = await openai.chat.completions.create({
       messages: [{

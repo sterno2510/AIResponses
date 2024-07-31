@@ -14,8 +14,8 @@ dotenv.config();
 const multer = require('multer');
 
 const cors = require('cors');
-const { submitResume } = require('./controllers/resume');
 const { sendVideoForTranscription } = require('./controllers/transcriptions');
+const { submitResume } = require('./controllers/resume');
 const { convertToPDF } = require('./controllers/convertToPdf');
 const { saveOrUpdateUser } = require('./db/db');
 const { imageCreation } = require('./controllers/imageCreation');
