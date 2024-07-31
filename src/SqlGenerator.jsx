@@ -1,72 +1,73 @@
 import React, { useState } from 'react';
+import {
+  ContainerStyled,
+  ResumeFormStyled,
+  TitleStyled,
+  ButtonStyled,
+} from './FormStyledComponents';
+import FormGroup from './FormGroup';
 
 const SqlQueryGenerator = () => {
-  const [tables, setTables] = useState('');
-  const [columns, setColumns] = useState('');
-  const [relationships, setRelationships] = useState('');
-  const [queryDescription, setQueryDescription] = useState('');
-
-  const handleTablesChange = (e) => setTables(e.target.value);
-  // eslint-disable-next-line no-unused-vars
-  const handleColumnsChange = (e) => setColumns(e.target.value);
-  const handleRelationshipsChange = (e) => setRelationships(e.target.value);
-  const handleQueryDescriptionChange = (e) => setQueryDescription(e.target.value);
+  const [formData, setFormData] = useState({ queryDescription: '' });
+  const [tables, setTables] = useState([{ tableName: '', tableSchema: '' }]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      tables,
-      columns,
-      relationships,
-      queryDescription,
-    };
-    console.log(formData);
+
+    console.log(formData, tables);
+  };
+
+  const handleChange = (e, index, field) => {
+    const { name, value } = e.target;
+    if (field === 'queryDescription') {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      const newTables = [...tables];
+      newTables[index][name] = value;
+      setTables(newTables);
+    }
+  };
+
+  const addTable = () => {
+    setTables([...tables, { tableName: '', tableSchema: '' }]);
   };
 
   return (
-    <div>
-      <h2>SQL Query Generator</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="table">
-            Database Tables
-            (e.g., Users: id, name, email, age; Orders: order_id, user_id, product_name):
-            <textarea
-              value={tables}
-              onChange={handleTablesChange}
-              placeholder="Enter database tables and their columns"
-              rows="4"
-              cols="50"
+    <ContainerStyled>
+      <TitleStyled>SQL Query Generator</TitleStyled>
+      <ResumeFormStyled onSubmit={handleSubmit}>
+        {tables.map((table, index) => (
+          <div key={table.tableName}>
+            <FormGroup
+              nameLabel="Table Name"
+              inputType="text"
+              field="tableName"
+              placeHolder="Enter your table name... (e.g) Users"
+              formValue={table.tableName}
+              changeFunction={(e) => handleChange(e, index, 'table')}
             />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="relationships">
-            Relationships (e.g., Users.id = Orders.user_id):
-            <textarea
-              value={relationships}
-              onChange={handleRelationshipsChange}
-              placeholder="Enter relationships between tables"
-              rows="2"
-              cols="50"
+            <FormGroup
+              nameLabel="Database Tables (e.g., Users: id, name, email, age; Orders: order_id, user_id, product_name)"
+              inputType="text"
+              field="tableSchema"
+              placeHolder="Enter database table schema"
+              formValue={table.tableSchema}
+              changeFunction={(e) => handleChange(e, index, 'table')}
             />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="query">
-            Query Description:
-            <textarea
-              value={queryDescription}
-              onChange={handleQueryDescriptionChange}
-              placeholder="Describe your query in natural language"
-              rows="4"
-              cols="50"
-            />
-          </label>
-        </div>
-        <button type="submit">Generate SQL Query</button>
-      </form>
-    </div>
+          </div>
+        ))}
+        <ButtonStyled type="button" onClick={addTable}>Add Another Table</ButtonStyled>
+        <FormGroup
+          nameLabel="Query Description"
+          inputType="text"
+          field="queryDescription"
+          placeHolder="Describe your query in natural language"
+          formValue={formData.queryDescription}
+          changeFunction={(e) => handleChange(e, -1, 'queryDescription')}
+        />
+        <ButtonStyled type="submit">Generate SQL Query</ButtonStyled>
+      </ResumeFormStyled>
+    </ContainerStyled>
   );
 };
 
