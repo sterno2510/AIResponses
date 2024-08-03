@@ -10,6 +10,8 @@ AI Companion is a comprehensive service designed to be your one-stop shop for al
 - **Audio Transcription**: Convert audio from uploaded videos to text accurately and efficiently.
 - **Cover Letter Creation**: Automatically generate professional cover letters based on a job description and resume.
 - **Image Creation**: Create images using OpenAI's Dall-E-3 model.  Users input an image description to generate an image.
+- **Generate SQL Queries**: Automatically generate SQL Queries based on listing schemes or table columns and table names, and entering the description of what you are trying access in the database.
+
 
 More features are planned for future updates. We welcome any suggestions for additional functionalities that could enhance the service.
 
