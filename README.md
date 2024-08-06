@@ -13,6 +13,7 @@ AI Companion is a comprehensive service designed to be your one-stop shop for al
 - **Generate SQL Queries**: Automatically generate SQL Queries based on listing schemes or table columns and table names, and entering the description of what you are trying access in the database.
 -**Convert Text to Speach**: Convert text to speech.
 -**Generate Music**: Generate music tracks based on given parameters or styles.
+-**Generate an Individualized Travel Itinerary**: Enter where you want to travel and get an individualized recommended travel itinerary.
 
 
 More features are planned for future updates. We welcome any suggestions for additional functionalities that could enhance the service.
