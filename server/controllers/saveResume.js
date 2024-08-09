@@ -21,6 +21,7 @@ const saveResume = async (req, res) => {
     // Optionally associate the resume with the user if you have this reference in the User schema
     await User.findByIdAndUpdate(
       userId,
+      // eslint-disable-next-line no-underscore-dangle
       { $addToSet: { resumes: resume._id } },
       { new: true },
     );

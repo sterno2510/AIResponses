@@ -20,7 +20,7 @@ const saveOrUpdateUser = (username, email) => User.findOneAndUpdate(
 )
   .then((updatedUser) => {
     console.log('User saved or updated:', updatedUser);
-    return updatedUser.visitCount;
+    return updatedUser;
   })
   .catch((error) => {
     console.error('Error saving or updating user:', error);

@@ -97,7 +97,16 @@ const Resume = () => {
 
     try {
       const res = await axios.post('/api/openai/resume', formData);
-      setResume(res.data.content);
+      const generatedResume = res.data.content;
+      setResume(generatedResume);
+
+      // Step 2: Save the generated resume to the database
+
+      const resumeData = formData; // The form data used to generate the resume
+      const newResume = generatedResume; // The generated resume in HTML
+
+      // eslint-disable-next-line no-undef
+      await axios.post('/api/save-resume', { user, resumeData, newResume });
     } catch (error) {
       console.log(error);
     } finally {

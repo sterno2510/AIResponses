@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
-const LandingPageContent = () => {
+const LandingPageContent = ({ userObject }) => {
   const location = useLocation();
   const hideContentPaths = ['/resume', '/cover-letter', '/transcribe', '/image-creation', '/sql-generator'];
 
@@ -66,6 +67,10 @@ const LandingPageContent = () => {
       )}
     </div>
   );
+};
+
+LandingPageContent.propTypes = {
+  userObject: PropTypes.func.isRequired,
 };
 
 export default LandingPageContent;
