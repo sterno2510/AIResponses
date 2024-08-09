@@ -7,9 +7,9 @@ mongoose.connect(`mongodb://0.0.0.0:27017/${process.env.DB_NAME}`)
   .then(() => console.log('connected'))
   .catch((err) => console.log(err));
 
-const AiCompanionResume = mongoose.model(process.env.DB_NAME, userSchema);
+const User = mongoose.model('User', userSchema);
 
-const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate(
+const saveOrUpdateUser = (username, email) => User.findOneAndUpdate(
   { email },
   {
     name: username,
@@ -27,4 +27,4 @@ const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate
     throw error;
   });
 
-module.exports = { saveOrUpdateUser, AiCompanionResume };
+module.exports = { saveOrUpdateUser, User };
