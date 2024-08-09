@@ -1,32 +1,13 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
+const { userSchema } = require('./models/user');
+
+require('dotenv').config();
 
 mongoose.connect(`mongodb://0.0.0.0:27017/${process.env.DB_NAME}`)
   .then(() => console.log('connected'))
   .catch((err) => console.log(err));
 
-const resumeSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    visitCount: {
-      type: Number,
-      default: 1,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-
-const AiCompanionResume = mongoose.model(process.env.DB_NAME, resumeSchema);
+const AiCompanionResume = mongoose.model(process.env.DB_NAME, userSchema);
 
 const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate(
   { email },
