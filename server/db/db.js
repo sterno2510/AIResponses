@@ -27,4 +27,4 @@ const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate
     throw error;
   });
 
-module.exports = { saveOrUpdateUser };
+module.exports = { saveOrUpdateUser, AiCompanionResume };

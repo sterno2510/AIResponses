@@ -17,6 +17,10 @@ const userSchema = new Schema(
       type: Number,
       default: 1,
     },
+    resumes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Resume',
+    }],
   },
   {
     timestamps: true,
