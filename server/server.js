@@ -22,12 +22,14 @@ const { imageCreation } = require('./controllers/imageCreation');
 const { coverLetter } = require('./controllers/coverLetter');
 const { sqlQuery } = require('./controllers/sqlQuery');
 const { saveResume } = require('./controllers/saveResume');
+const { retrieveResumes } = require('./controllers/retrieveResumes');
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 const upload = multer({ dest: 'uploads/' });
 
 // routes for OpenAI api calls
+app.get('/retrieve-resumes', retrieveResumes);
 app.post('/save-resume', saveResume);
 app.post('/api/openai/resume', submitResume);
 app.post('/api/openai/transcribe', upload.single('video'), sendVideoForTranscription);
