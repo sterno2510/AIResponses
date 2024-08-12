@@ -9,10 +9,6 @@ const resumeSchema = new Schema(
       ref: process.env.DB_NAME,
       required: true,
     },
-    resumeData: {
-      type: mongoose.Schema.Types.Mixed,
-      required: true,
-    },
     newResume: {
       type: String,
       required: true,

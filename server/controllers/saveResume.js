@@ -5,13 +5,12 @@ const { User } = require('../db/db');
 const Resume = mongoose.model('Resume', resumeSchema);
 // POST endpoint to save resume
 const saveResume = async (req, res) => {
-  const { userId, resumeData, newResume } = req.body;
+  const { userId, newResume } = req.body;
 
   try {
     // Create a new resume entry
     const resume = new Resume({
       user: userId,
-      resumeData,
       newResume,
     });
 
@@ -28,6 +27,7 @@ const saveResume = async (req, res) => {
 
     res.status(201).json({ message: 'Resume saved successfully', resume });
   } catch (error) {
+    console.error('Error saving resume:', error);
     res.status(500).json({ error: 'Error saving resume' });
   }
 };
