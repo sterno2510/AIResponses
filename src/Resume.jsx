@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useOutletContext } from 'react-router-dom';
 import FormGroup from './FormGroup';
+import ResumeHistory from './ResumeHistory';
 import {
   ContainerStyled,
   TitleStyled,
@@ -114,11 +115,12 @@ const Resume = () => {
       setSubmitting(false);
     }
   };
-
+  console.log('usr obj in resume', userObject);
   return (
     <>
       <ContainerStyled>
         <TitleStyled>Update Your Resume</TitleStyled>
+        <ResumeHistory userObject={userObject} />
         <ResumeFormStyled onSubmit={handleSubmit}>
           <FormGroup nameLabel="Full Name" inputType="text" field="fullName" formValue={formData.fullName} changeFunction={handleChange} />
           <FormGroup nameLabel="Email" inputType="email" field="email" formValue={formData.email} changeFunction={handleChange} />

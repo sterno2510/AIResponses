@@ -28,9 +28,11 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 const upload = multer({ dest: 'uploads/' });
 
-// routes for OpenAI api calls
+// routes for DB management
 app.get('/retrieve-resumes', retrieveResumes);
 app.post('/save-resume', saveResume);
+
+// routes for OpenAI api calls
 app.post('/api/openai/resume', submitResume);
 app.post('/api/openai/transcribe', upload.single('video'), sendVideoForTranscription);
 app.post('/api/convertToPdf', convertToPDF);
