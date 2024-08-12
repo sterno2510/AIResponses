@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
-const LandingPageContent = () => {
+const LandingPageContent = ({ userObject }) => {
   const location = useLocation();
   const hideContentPaths = ['/resume', '/cover-letter', '/transcribe', '/image-creation', '/sql-generator'];
 
   const shouldHideContent = hideContentPaths.includes(location.pathname);
   return (
     <div className="content" data-testid="content">
-      <Outlet />
+      <Outlet context={{ userObject }} />
       {!shouldHideContent && (
       <div className="center-container" data-testid="center-container">
         <section className="intro" data-testid="intro">
@@ -66,6 +67,10 @@ const LandingPageContent = () => {
       )}
     </div>
   );
+};
+
+LandingPageContent.propTypes = {
+  userObject: PropTypes.func.isRequired,
 };
 
 export default LandingPageContent;

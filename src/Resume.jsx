@@ -1,6 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useOutletContext } from 'react-router-dom';
 import FormGroup from './FormGroup';
 import {
   ContainerStyled,
@@ -41,6 +42,8 @@ const Resume = () => {
     }],
     skills: '',
   });
+
+  const { userObject } = useOutletContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,7 +100,14 @@ const Resume = () => {
 
     try {
       const res = await axios.post('/api/openai/resume', formData);
-      setResume(res.data.content);
+      const generatedResume = res.data.content;
+      setResume(generatedResume);
+
+      const newResume = generatedResume;
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = userObject._id;
+
+      await axios.post('/save-resume', { userId, newResume });
     } catch (error) {
       console.log(error);
     } finally {

@@ -59,7 +59,7 @@ You will need to get an OPEN AI API Key:
 5. Update the `.env` file to include your OpenAI API key and DB name:
     ```sh
     OPENAI_API_KEY=your_openai_api_key_here
-    DB_NAME=AiCompanionResume
+    DB_NAME=AiCompanion
     ```
 
 6. Start docker container for DB

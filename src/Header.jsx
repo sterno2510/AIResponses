@@ -1,8 +1,8 @@
-/* eslint-disable react/function-component-definition */
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import logo from './assets/ailogo.png';
 import slogan from './assets/slogan.png';
 import {
@@ -14,16 +14,18 @@ import {
   VisitCounterStyled,
 } from './HeaderStyledComponents';
 
-const Header = () => {
+const Header = ({ setUserObject }) => {
   const { logout, isAuthenticated, user } = useAuth0();
+
   const [visitCount, setVisitCount] = useState(null);
 
   useEffect(() => {
     if (user) {
       axios.get(`/update?name=${user.name}&email=${user.email}`)
-        .then((response) => (
-          setVisitCount(response.data)
-        ))
+        .then((response) => {
+          setUserObject(response.data);
+          setVisitCount(response.data.visitCount);
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -57,6 +59,10 @@ const Header = () => {
       )}
     </HeaderContainerStyled>
   );
+};
+
+Header.propTypes = {
+  setUserObject: PropTypes.func.isRequired,
 };
 
 export default Header;

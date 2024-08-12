@@ -1,34 +1,15 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
+const { userSchema } = require('./models/user');
+
+require('dotenv').config();
 
 mongoose.connect(`mongodb://0.0.0.0:27017/${process.env.DB_NAME}`)
   .then(() => console.log('connected'))
   .catch((err) => console.log(err));
 
-const resumeSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    visitCount: {
-      type: Number,
-      default: 1,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+const User = mongoose.model('User', userSchema);
 
-const AiCompanionResume = mongoose.model(process.env.DB_NAME, resumeSchema);
-
-const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate(
+const saveOrUpdateUser = (username, email) => User.findOneAndUpdate(
   { email },
   {
     name: username,
@@ -39,11 +20,11 @@ const saveOrUpdateUser = (username, email) => AiCompanionResume.findOneAndUpdate
 )
   .then((updatedUser) => {
     console.log('User saved or updated:', updatedUser);
-    return updatedUser.visitCount;
+    return updatedUser;
   })
   .catch((error) => {
     console.error('Error saving or updating user:', error);
     throw error;
   });
 
-module.exports = { saveOrUpdateUser };
+module.exports = { saveOrUpdateUser, User };
