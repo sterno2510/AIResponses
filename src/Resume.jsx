@@ -1,6 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useOutletContext } from 'react-router-dom';
 import FormGroup from './FormGroup';
 import {
   ContainerStyled,
@@ -41,6 +42,9 @@ const Resume = () => {
     }],
     skills: '',
   });
+
+  const { userObject } = useOutletContext();
+  console.log('userObject in resume', userObject);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

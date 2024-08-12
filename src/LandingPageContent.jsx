@@ -9,7 +9,7 @@ const LandingPageContent = ({ userObject }) => {
   const shouldHideContent = hideContentPaths.includes(location.pathname);
   return (
     <div className="content" data-testid="content">
-      <Outlet />
+      <Outlet context={{ userObject }} />
       {!shouldHideContent && (
       <div className="center-container" data-testid="center-container">
         <section className="intro" data-testid="intro">

@@ -5,7 +5,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
