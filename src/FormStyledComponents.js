@@ -33,11 +33,11 @@ export const ButtonStyled = styled.button`
   margin: 10px 0;
   border: none;
   border-radius: 5px;
-  background-color: #0068d1;
+  background-color: #404040;
   color: white;
   cursor: pointer;
   &:hover {
-    background-color: #404040;
+    background-color: #7F7F7F;
   }
 `;
 
