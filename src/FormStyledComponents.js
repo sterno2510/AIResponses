@@ -41,6 +41,23 @@ export const ButtonStyled = styled.button`
   }
 `;
 
+export const NavButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+`;
+
+export const LeftButton = styled(ButtonStyled)`
+  position: absolute;
+  left: 0;
+`;
+
+export const RightButton = styled(ButtonStyled)`
+  position: absolute;
+  right: 0;
+`;
+
 export const SectionStyled = styled.section`
   border: 1px solid #ccc;
   padding: 20px;
@@ -53,7 +70,7 @@ export const SectionTitleStyled = styled.h3`
 `;
 
 export const DangerousHtmlStyled = styled.div`
-  margin-top: 20px;
+  margin-top: 75px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
