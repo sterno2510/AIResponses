@@ -25,8 +25,6 @@ const ImageCreation = () => {
       });
   };
 
-  console.log('image data', imageData);
-
   return (
     <ContainerStyled>
       <TitleStyled>Create an AI-Generated Image</TitleStyled>
