@@ -14,7 +14,7 @@ export const TitleStyled = styled.h1`
   margin-bottom: 20px;
 `;
 
-export const InputStyled = styled.input`
+export const InputStyled = styled.textarea`
   padding: 10px;
   width: 300px;
   margin-bottom: 20px;
