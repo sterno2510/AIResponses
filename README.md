@@ -83,10 +83,6 @@ You will need to get an OPEN AI API Key:
 
 We are open to contributions and ideas on how to improve the AI Companion. Feel free to fork the repository, make your changes, and submit a pull request. If you have any suggestions for new features, please open an issue to discuss.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ---
 
 Feel free to reach out if you have any questions or need further assistance. Happy coding!
